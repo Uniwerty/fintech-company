@@ -1,0 +1,11 @@
+spring:
+  liquibase:
+    enabled: true
+    changeLog: classpath:/db/db.changelog-master.yaml
+    url: jdbc:postgresql://localhost:5432/product-engine-db
+    user: product-engine
+    password: product-engine
+  datasource:
+    url: jdbc:postgresql://localhost:5432/product-engine-db
+    username: product-engine
+    password: product-engine

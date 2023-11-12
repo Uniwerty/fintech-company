@@ -15,6 +15,9 @@ javax-annotation = { module = "javax.annotation:javax.annotation-api", version =
 lombok = { module = "org.projectlombok:lombok", version = "1.18.26" }
 postgresql-driver = { module = "org.postgresql:postgresql", version = "42.6.0" }
 
+liquibase = { module = "org.liquibase:liquibase-core", version = "4.24.0" }
+jpa = { module = "org.springframework.data:spring-data-jpa", version.ref = "spring-boot" }
+
 protobuf-java-util = { module = "com.google.protobuf:protobuf-java-util", version = "3.23.0" }
 grpc-protobuf = { module = "io.grpc:grpc-protobuf", version = "1.54.1" }
 grpc-stub = { module = "io.grpc:grpc-stub", version = "1.55.1" }
