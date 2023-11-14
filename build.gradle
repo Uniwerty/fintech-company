@@ -23,7 +23,8 @@ subprojects {
 
         implementation libs.postgresql.driver
         implementation libs.liquibase
-        implementation libs.jpa
+        implementation libs.spring.starter
+        implementation libs.spring.jpa
     }
 
     repositories {
