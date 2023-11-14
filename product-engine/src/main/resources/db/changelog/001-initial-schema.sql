@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE products
 (
     product_code           varchar PRIMARY KEY,
@@ -14,9 +16,9 @@ INSERT INTO products
 VALUES ('CL-1.0', 3, 24, '8', '15', '50000', '500000', '2000', '10000');
 CREATE TABLE agreements
 (
-    agreement_id       varchar PRIMARY KEY,
+    agreement_id       uuid PRIMARY KEY DEFAULT uuid_generate_v1(),
     product_code       varchar REFERENCES products,
-    client_id          varchar NOT NULL,
+    client_id          uuid    NOT NULL,
     status             varchar CHECK ( status in ('NEW', 'ACTIVE', 'CLOSED') ),
     loan_term          int     NOT NULL,
     interest           numeric NOT NULL,
@@ -27,13 +29,13 @@ CREATE TABLE agreements
 );
 CREATE TABLE payment_schedules
 (
-    schedule_id  varchar PRIMARY KEY,
-    agreement_id varchar REFERENCES agreements,
+    schedule_id  uuid PRIMARY KEY DEFAULT uuid_generate_v1(),
+    agreement_id uuid REFERENCES agreements,
     version      int NOT NULL
 );
 CREATE TABLE payments
 (
-    schedule_id       varchar REFERENCES payment_schedules,
+    schedule_id       uuid REFERENCES payment_schedules,
     status            varchar CHECK ( status in ('PAID', 'OVERDUE', 'FUTURE') ),
     payment_date      date,
     period_payment    numeric,
