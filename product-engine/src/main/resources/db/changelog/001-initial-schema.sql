@@ -22,6 +22,7 @@ CREATE TABLE agreements
     status              varchar CHECK ( status in ('NEW', 'ACTIVE', 'CLOSED') ),
     term                int     NOT NULL,
     interest            numeric NOT NULL,
+    principal_amount    numeric NOT NULL,
     disbursement_amount numeric NOT NULL,
     origination_amount  numeric NOT NULL,
     disbursement_date   date,

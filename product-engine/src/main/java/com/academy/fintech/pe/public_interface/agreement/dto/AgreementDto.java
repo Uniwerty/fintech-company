@@ -13,6 +13,7 @@ public record AgreementDto (
     UUID clientId,
     int term,
     BigDecimal interest,
+    BigDecimal principalAmount,
     BigDecimal disbursementAmount,
     BigDecimal originationAmount,
     Date disbursementDate

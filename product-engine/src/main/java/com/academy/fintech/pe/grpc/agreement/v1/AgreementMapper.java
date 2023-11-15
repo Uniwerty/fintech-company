@@ -12,12 +12,14 @@ import java.util.UUID;
 @Component
 public class AgreementMapper {
     public AgreementDto mapCreationRequestToDto(AgreementCreationRequest request) {
+        BigDecimal disbursementAmount = new BigDecimal(request.getDisbursementAmount());
         return AgreementDto.builder()
                 .productCode(request.getProductCode())
                 .clientId(UUID.fromString(request.getClientId()))
                 .term(request.getTerm())
                 .interest(new BigDecimal(request.getInterest()))
-                .disbursementAmount(new BigDecimal(request.getDisbursementAmount()))
+                .principalAmount(disbursementAmount)
+                .disbursementAmount(disbursementAmount)
                 .originationAmount(new BigDecimal(request.getOriginationAmount()))
                 .build();
     }
