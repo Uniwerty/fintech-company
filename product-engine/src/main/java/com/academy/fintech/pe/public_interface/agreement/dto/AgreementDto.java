@@ -11,7 +11,7 @@ public record AgreementDto (
     UUID id,
     String productCode,
     UUID clientId,
-    int loanTerm,
+    int term,
     BigDecimal interest,
     BigDecimal disbursementAmount,
     BigDecimal originationAmount,

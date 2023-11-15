@@ -34,8 +34,7 @@ public class Agreement {
 
     private String status;
 
-    @Column(name = "loan_term")
-    private int loanTerm;
+    private int term;
 
     private BigDecimal interest;
 

@@ -15,7 +15,7 @@ public class AgreementMapper {
         return AgreementDto.builder()
                 .productCode(request.getProductCode())
                 .clientId(UUID.fromString(request.getClientId()))
-                .loanTerm(request.getLoanTerm())
+                .term(request.getTerm())
                 .interest(new BigDecimal(request.getInterest()))
                 .disbursementAmount(new BigDecimal(request.getDisbursementAmount()))
                 .originationAmount(new BigDecimal(request.getOriginationAmount()))

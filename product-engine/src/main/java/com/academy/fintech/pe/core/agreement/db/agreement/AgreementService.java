@@ -19,7 +19,7 @@ public class AgreementService {
                         .clientId(agreementDto.clientId())
                         .productCode(agreementDto.productCode())
                         .status(NEW_STATUS)
-                        .loanTerm(agreementDto.loanTerm())
+                        .term(agreementDto.term())
                         .interest(agreementDto.interest())
                         .disbursementAmount(agreementDto.disbursementAmount())
                         .originationAmount(agreementDto.originationAmount())

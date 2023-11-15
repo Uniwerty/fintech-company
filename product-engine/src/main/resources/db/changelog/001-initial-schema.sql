@@ -20,7 +20,7 @@ CREATE TABLE agreements
     product_code        varchar REFERENCES products,
     client_id           uuid    NOT NULL,
     status              varchar CHECK ( status in ('NEW', 'ACTIVE', 'CLOSED') ),
-    loan_term           int     NOT NULL,
+    term                int     NOT NULL,
     interest            numeric NOT NULL,
     disbursement_amount numeric NOT NULL,
     origination_amount  numeric NOT NULL,

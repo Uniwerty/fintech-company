@@ -15,7 +15,7 @@ message AgreementCreationRequest{
   string disbursementAmount = 3;
   string originationAmount = 4;
   string interest = 5;
-  int32 loanTerm = 6;
+  int32 term = 6;
 }
 
 message AgreementCreationResponse{
