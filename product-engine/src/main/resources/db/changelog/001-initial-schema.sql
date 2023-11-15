@@ -35,10 +35,10 @@ CREATE TABLE payment_schedules
 );
 CREATE TABLE payments
 (
+    payment_id        uuid PRIMARY KEY DEFAULT uuid_generate_v1(),
     schedule_id       uuid REFERENCES payment_schedules,
     status            varchar CHECK ( status in ('PAID', 'OVERDUE', 'FUTURE') ),
     payment_date      date,
-    period_payment    numeric,
     interest_payment  numeric,
     principal_payment numeric,
     period_number     int
