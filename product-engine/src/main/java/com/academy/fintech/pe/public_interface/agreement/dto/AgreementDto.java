@@ -4,12 +4,13 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.UUID;
 
 @Builder
 public record AgreementDto (
-    String id,
+    UUID id,
     String productCode,
-    String clientId,
+    UUID clientId,
     int loanTerm,
     BigDecimal interest,
     BigDecimal disbursementAmount,

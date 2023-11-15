@@ -4,30 +4,33 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "agreements")
 @Getter
 @Setter
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Agreement {
     @Id
     @Column(name = "agreement_id")
-    private String id;
+    private UUID id;
 
     @Column(name = "product_code")
     private String productCode;
 
     @Column(name = "client_id")
-    private String clientId;
+    private UUID clientId;
 
     private String status;
 
