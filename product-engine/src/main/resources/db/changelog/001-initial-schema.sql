@@ -16,16 +16,16 @@ INSERT INTO products
 VALUES ('CL-1.0', 3, 24, '8', '15', '50000', '500000', '2000', '10000');
 CREATE TABLE agreements
 (
-    agreement_id       uuid PRIMARY KEY DEFAULT uuid_generate_v1(),
-    product_code       varchar REFERENCES products,
-    client_id          uuid    NOT NULL,
-    status             varchar CHECK ( status in ('NEW', 'ACTIVE', 'CLOSED') ),
-    loan_term          int     NOT NULL,
-    interest           numeric NOT NULL,
-    principal_amount   numeric NOT NULL,
-    origination_amount numeric NOT NULL,
-    disbursement_date  date,
-    next_payment_date  date
+    agreement_id        uuid PRIMARY KEY DEFAULT uuid_generate_v1(),
+    product_code        varchar REFERENCES products,
+    client_id           uuid    NOT NULL,
+    status              varchar CHECK ( status in ('NEW', 'ACTIVE', 'CLOSED') ),
+    loan_term           int     NOT NULL,
+    interest            numeric NOT NULL,
+    disbursement_amount numeric NOT NULL,
+    origination_amount  numeric NOT NULL,
+    disbursement_date   date,
+    next_payment_date   date
 );
 CREATE TABLE payment_schedules
 (

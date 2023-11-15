@@ -14,8 +14,6 @@ public class AgreementService {
     private final AgreementRepository agreementRepository;
 
     public UUID create(AgreementDto agreementDto) {
-        BigDecimal principalAmount =
-                agreementDto.disbursementAmount().add(agreementDto.originationAmount());
         Agreement createdAgreement = agreementRepository.save(
                 Agreement.builder()
                         .clientId(agreementDto.clientId())
@@ -23,8 +21,8 @@ public class AgreementService {
                         .status(NEW_STATUS)
                         .loanTerm(agreementDto.loanTerm())
                         .interest(agreementDto.interest())
+                        .disbursementAmount(agreementDto.disbursementAmount())
                         .originationAmount(agreementDto.originationAmount())
-                        .principalAmount(principalAmount)
                         .build()
         );
         return createdAgreement.getId();

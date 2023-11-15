@@ -39,8 +39,8 @@ public class Agreement {
 
     private BigDecimal interest;
 
-    @Column(name = "principal_amount")
-    private BigDecimal principalAmount;
+    @Column(name = "disbursement_amount")
+    private BigDecimal disbursementAmount;
 
     @Column(name = "origination_amount")
     private BigDecimal originationAmount;
