@@ -16,15 +16,12 @@ subprojects {
     }
 
     dependencies {
-        implementation libs.spring.web
-
+        implementation libs.bundles.spring
         implementation libs.lombok
         annotationProcessor libs.lombok
-
-        implementation libs.postgresql.driver
-        implementation libs.liquibase
-        implementation libs.spring.starter
-        implementation libs.spring.jpa
+        implementation libs.bundles.grpc
+        implementation libs.bundles.database
+        testImplementation libs.bundles.testing
     }
 
     repositories {
