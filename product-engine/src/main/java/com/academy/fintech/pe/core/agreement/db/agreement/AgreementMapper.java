@@ -5,7 +5,7 @@ import com.academy.fintech.pe.public_interface.agreement.dto.AgreementCreationDt
 import com.academy.fintech.pe.public_interface.schedule.dto.PaymentScheduleCreationDto;
 import org.springframework.stereotype.Component;
 
-@Component("repository.mapper")
+@Component
 public class AgreementMapper {
     public Agreement mapAgreementCreationDtoToEntity(AgreementCreationDto agreementCreationDto) {
         return Agreement.builder()

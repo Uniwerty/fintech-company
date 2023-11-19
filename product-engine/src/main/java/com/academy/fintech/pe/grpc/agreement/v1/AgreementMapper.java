@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.UUID;
 
-@Component("grpc.mapper")
+@Component
 public class AgreementMapper {
     public AgreementCreationDto mapCreationRequestToDto(AgreementCreationRequest request) {
         BigDecimal disbursementAmount = new BigDecimal(request.getDisbursementAmount());
