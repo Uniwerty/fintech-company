@@ -1,30 +1,38 @@
 package com.academy.fintech.pe.core.agreement.db.agreement;
 
-import com.academy.fintech.pe.public_interface.agreement.dto.AgreementDto;
+import com.academy.fintech.pe.core.agreement.db.agreement.model.Agreement;
+import com.academy.fintech.pe.core.agreement.db.agreement.repository.AgreementRepository;
+import com.academy.fintech.pe.core.agreement.status.AgreementStatus;
+import com.academy.fintech.pe.public_interface.agreement.dto.AgreementActivationDto;
+import com.academy.fintech.pe.public_interface.agreement.dto.AgreementCreationDto;
+import com.academy.fintech.pe.public_interface.schedule.dto.PaymentScheduleCreationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AgreementService {
-    private final static String NEW_STATUS = "NEW";
     private final AgreementRepository agreementRepository;
+    private final AgreementMapper agreementMapper;
 
-    public UUID create(AgreementDto agreementDto) {
-        Agreement createdAgreement = agreementRepository.save(
-                Agreement.builder()
-                        .clientId(agreementDto.clientId())
-                        .productCode(agreementDto.productCode())
-                        .status(NEW_STATUS)
-                        .term(agreementDto.term())
-                        .interest(agreementDto.interest())
-                        .disbursementAmount(agreementDto.disbursementAmount())
-                        .originationAmount(agreementDto.originationAmount())
-                        .build()
-        );
-        return createdAgreement.getId();
+    public UUID create(AgreementCreationDto agreementCreationDto) {
+        Agreement agreement = agreementMapper.mapAgreementCreationDtoToEntity(agreementCreationDto);
+        agreement.setStatus(AgreementStatus.NEW.name());
+        return agreementRepository.save(agreement).getId();
+    }
+
+    public PaymentScheduleCreationDto activate(AgreementActivationDto agreementActivationDto) {
+        Agreement agreement = agreementRepository.findById(agreementActivationDto.id()).orElseThrow();
+        agreement.setStatus(AgreementStatus.ACTIVE.name());
+        agreement.setDisbursementDate(agreementActivationDto.disbursementDate());
+        agreementRepository.save(agreement);
+        return agreementMapper.mapEntityToPaymentScheduleCreationDto(agreement);
+    }
+
+    public void setNextPaymentDate(UUID agreementId, Date nextPaymentDate) {
+        agreementRepository.updateAgreementNextPaymentDate(agreementId, nextPaymentDate);
     }
 }

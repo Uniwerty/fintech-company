@@ -11,11 +11,13 @@ public record AgreementDto (
     UUID id,
     String productCode,
     UUID clientId,
+    String status,
     int term,
     BigDecimal interest,
     BigDecimal principalAmount,
     BigDecimal disbursementAmount,
     BigDecimal originationAmount,
-    Date disbursementDate
+    Date disbursementDate,
+    Date nextPaymentDate
 ) {
 }
