@@ -46,7 +46,7 @@ public class PaymentCreationService {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(paymentCreationDto.disbursementDate());
         List<PaymentDto> payments = new ArrayList<>(paymentCreationDto.term());
-        for (int period = 1; period <= paymentCreationDto.term(); period++) {
+        for (int period = 0; period < paymentCreationDto.term(); period++) {
             BigDecimal interestPayment = interestPayments.get(period);
             calendar.add(Calendar.MONTH, 1);
             payments.add(
@@ -56,7 +56,7 @@ public class PaymentCreationService {
                             .date(new Date(calendar.getTime().getTime()))
                             .interestPayment(interestPayment)
                             .principalPayment(periodPayment.subtract(interestPayment))
-                            .periodNumber(period)
+                            .periodNumber(period + 1)
                             .build()
             );
         }
