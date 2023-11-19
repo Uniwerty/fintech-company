@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -31,6 +32,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Testcontainers
+@DirtiesContext
 @SpringBootTest(classes = Application.class)
 public class AgreementSchedulingServiceTest {
     private static final String PRODUCT_CODE = "CL-1.0";
