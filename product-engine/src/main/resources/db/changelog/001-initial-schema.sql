@@ -7,8 +7,8 @@ CREATE TABLE products
     max_term               int     NOT NULL,
     min_interest           numeric NOT NULL,
     max_interest           numeric NOT NULL,
-    min_principal_amount   numeric NOT NULL,
-    max_principal_amount   numeric NOT NULL,
+    min_disbursement_amount   numeric NOT NULL,
+    max_disbursement_amount   numeric NOT NULL,
     min_origination_amount numeric NOT NULL,
     max_origination_amount numeric NOT NULL
 );
