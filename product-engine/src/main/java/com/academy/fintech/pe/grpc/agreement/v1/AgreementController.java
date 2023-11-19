@@ -36,6 +36,13 @@ public class AgreementController extends AgreementServiceGrpc.AgreementServiceIm
     @Override
     public void activate(AgreementActivationRequest request,
                          StreamObserver<AgreementActivationResponse> responseObserver) {
-        super.activate(request, responseObserver);
+        UUID createdScheduleId =
+                agreementSchedulingService.activate(agreementMapper.mapActivationRequestToDto(request));
+        responseObserver.onNext(
+                AgreementActivationResponse.newBuilder()
+                        .setScheduleId(createdScheduleId.toString())
+                        .build()
+        );
+        responseObserver.onCompleted();
     }
 }

@@ -28,5 +28,5 @@ message AgreementActivationRequest{
 }
 
 message AgreementActivationResponse{
-  string agreementId = 1;
+  string scheduleId = 1;
 }

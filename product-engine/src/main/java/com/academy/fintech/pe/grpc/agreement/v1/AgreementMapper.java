@@ -24,4 +24,11 @@ public class AgreementMapper {
                 .originationAmount(new BigDecimal(request.getOriginationAmount()))
                 .build();
     }
+
+    public AgreementActivationDto mapActivationRequestToDto(AgreementActivationRequest request) {
+        return AgreementActivationDto.builder()
+                .id(UUID.fromString(request.getAgreementId()))
+                .disbursementDate(new Date(request.getDisbursementDate()))
+                .build();
+    }
 }
