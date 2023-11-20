@@ -2,15 +2,15 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE products
 (
-    product_code           varchar PRIMARY KEY,
-    min_term               int     NOT NULL,
-    max_term               int     NOT NULL,
-    min_interest           numeric NOT NULL,
-    max_interest           numeric NOT NULL,
-    min_disbursement_amount   numeric NOT NULL,
-    max_disbursement_amount   numeric NOT NULL,
-    min_origination_amount numeric NOT NULL,
-    max_origination_amount numeric NOT NULL
+    product_code            varchar PRIMARY KEY,
+    min_term                int     NOT NULL,
+    max_term                int     NOT NULL,
+    min_interest            numeric NOT NULL,
+    max_interest            numeric NOT NULL,
+    min_disbursement_amount numeric NOT NULL,
+    max_disbursement_amount numeric NOT NULL,
+    min_origination_amount  numeric NOT NULL,
+    max_origination_amount  numeric NOT NULL
 );
 INSERT INTO products
 VALUES ('CL-1.0', 3, 24, '8', '15', '50000', '500000', '2000', '10000');
