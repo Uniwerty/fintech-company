@@ -1,4 +1,4 @@
-package com.academy.fintech.origination.core.application.db.client.model;
+package com.academy.fintech.origination.core.client.db.client.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
