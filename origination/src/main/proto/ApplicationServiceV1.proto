@@ -5,17 +5,27 @@ package com.academy.fintech.application;
 option java_multiple_files = true;
 
 service ApplicationService{
-  rpc Create(ApplicationRequest) returns (ApplicationResponse) {}
+  rpc Create(ApplicationCreationRequest) returns (ApplicationCreationResponse) {}
+  rpc Cancel(ApplicationCancellationRequest) returns (ApplicationCancellationResponse) {}
 }
 
-message ApplicationRequest{
+message ApplicationCreationRequest{
   string firstName = 1;
   string lastName = 2;
   string email = 3;
   int32 salary = 4;
-  int32 disbursementAmount = 5;
+  int32 requiredAmount = 5;
+  int64 creationDate = 6;
 }
 
-message ApplicationResponse{
+message ApplicationCreationResponse{
+  string applicationId = 1;
+}
+
+message ApplicationCancellationRequest{
+  string applicationId = 1;
+}
+
+message ApplicationCancellationResponse{
   string applicationId = 1;
 }
