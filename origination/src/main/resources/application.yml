@@ -4,3 +4,15 @@ server:
 grpc:
   port: 9094
   enable-reflection: true
+
+spring:
+  liquibase:
+    enabled: true
+    changeLog: classpath:/db/db.changelog-master.yaml
+    url: jdbc:postgresql://localhost:5432/origination-db
+    user: origination
+    password: origination
+  datasource:
+    url: jdbc:postgresql://localhost:5432/origination-db
+    username: origination
+    password: origination
