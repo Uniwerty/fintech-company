@@ -7,6 +7,7 @@ import com.academy.fintech.origination.public_interface.application.dto.Applicat
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,5 +21,15 @@ public class ApplicationService {
         application.setStatus(ApplicationStatus.NEW);
         applicationRepository.save(application);
         return application.getId();
+    }
+
+    public Optional<UUID> findWithNewStatus(ApplicationDto applicationDto) {
+        return applicationRepository
+                .findApplicationByClientIdAndRequestedAmountAndStatus(
+                        applicationDto.clientId(),
+                        applicationDto.requiredAmount(),
+                        ApplicationStatus.NEW
+                )
+                .map(Application::getId);
     }
 }

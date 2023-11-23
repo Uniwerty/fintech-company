@@ -22,6 +22,10 @@ message ApplicationCreationResponse{
   string applicationId = 1;
 }
 
+message ApplicationCreationError{
+  string existingApplicationId = 1;
+}
+
 message ApplicationCancellationRequest{
   string applicationId = 1;
 }
