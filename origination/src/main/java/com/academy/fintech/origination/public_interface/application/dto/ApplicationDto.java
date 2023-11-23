@@ -10,7 +10,6 @@ import java.util.UUID;
 public record ApplicationDto(
         UUID clientId,
         BigDecimal requiredAmount,
-        String status,
         Date creationDate
 ) {
 }

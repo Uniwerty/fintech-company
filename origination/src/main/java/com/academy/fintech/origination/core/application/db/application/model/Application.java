@@ -1,7 +1,10 @@
 package com.academy.fintech.origination.core.application.db.application.model;
 
+import com.academy.fintech.origination.core.application.status.ApplicationStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -35,7 +38,8 @@ public class Application {
     private BigDecimal requestedAmount;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status;
 
     @Column(name = "creation_date")
     private Date creationDate;
