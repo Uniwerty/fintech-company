@@ -49,6 +49,7 @@ public class ApplicationController extends ApplicationServiceGrpc.ApplicationSer
             responseObserver.onError(
                     createError(
                             Status.ALREADY_EXISTS,
+                            ApplicationCreationError.getDefaultInstance(),
                             ApplicationCreationError.newBuilder()
                                     .setExistingApplicationId(result.applicationId().toString())
                                     .build()
@@ -70,6 +71,7 @@ public class ApplicationController extends ApplicationServiceGrpc.ApplicationSer
             responseObserver.onError(
                     createError(
                             Status.UNAVAILABLE,
+                            ApplicationCancellationError.getDefaultInstance(),
                             ApplicationCancellationError.newBuilder()
                                     .setMessage(result.message())
                                     .build()
@@ -79,9 +81,10 @@ public class ApplicationController extends ApplicationServiceGrpc.ApplicationSer
     }
 
     private static <T extends Message> StatusRuntimeException createError(Status status,
+                                                                          T key,
                                                                           T message) {
         Metadata metadata = new Metadata();
-        metadata.put(ProtoUtils.keyForProto(message), message);
+        metadata.put(ProtoUtils.keyForProto(key), message);
         return status.asRuntimeException(metadata);
     }
 }
