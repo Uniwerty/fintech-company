@@ -34,17 +34,17 @@ public class ApplicationController extends ApplicationServiceGrpc.ApplicationSer
     @Override
     public void create(ApplicationCreationRequest request,
                        StreamObserver<ApplicationCreationResponse> responseObserver) {
-        log.info("Application creation request received: {}", request);
+        log.info("Got creation request: {}", request);
         ApplicationCreationResult result = applicationCreationService.create(
                 applicationMapper.mapCreationRequestToDto(request)
         );
         if (result.isSuccess()) {
-            responseObserver.onNext(
-                    ApplicationCreationResponse.newBuilder()
-                            .setApplicationId(result.applicationId().toString())
-                            .build()
-            );
+            ApplicationCreationResponse response = ApplicationCreationResponse.newBuilder()
+                    .setApplicationId(result.applicationId().toString())
+                    .build();
+            responseObserver.onNext(response);
             responseObserver.onCompleted();
+            log.info("Sent creation response: {}", response);
         } else {
             responseObserver.onError(
                     createError(
@@ -55,18 +55,20 @@ public class ApplicationController extends ApplicationServiceGrpc.ApplicationSer
                                     .build()
                     )
             );
+            log.info("Sent creation error");
         }
     }
 
     @Override
     public void cancel(ApplicationCancellationRequest request,
                        StreamObserver<ApplicationCancellationResponse> responseObserver) {
-        log.info("Application cancellation request received: {}", request);
+        log.info("Got cancellation request: {}", request);
         ApplicationCancellationResult result =
                 applicationCancellationService.cancel(UUID.fromString(request.getApplicationId()));
         if (result.isSuccess()) {
             responseObserver.onNext(ApplicationCancellationResponse.newBuilder().build());
             responseObserver.onCompleted();
+            log.info("Sent cancellation response");
         } else {
             responseObserver.onError(
                     createError(
@@ -77,6 +79,7 @@ public class ApplicationController extends ApplicationServiceGrpc.ApplicationSer
                                     .build()
                     )
             );
+            log.info("Sent cancellation error");
         }
     }
 
