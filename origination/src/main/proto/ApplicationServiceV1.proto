@@ -31,5 +31,8 @@ message ApplicationCancellationRequest{
 }
 
 message ApplicationCancellationResponse{
-  string applicationId = 1;
+}
+
+message ApplicationCancellationError{
+  string message = 1;
 }

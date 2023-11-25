@@ -10,10 +10,18 @@ public class ApplicationMapper {
     public Application mapDtoToEntity(ApplicationDto applicationDto) {
         return Application.builder()
                 .clientId(applicationDto.clientId())
-                .requestedAmount(applicationDto.requiredAmount())
+                .requestedAmount(applicationDto.requestedAmount())
                 .status(applicationDto.status())
                 .creationDate(applicationDto.creationDate())
                 .build();
     }
 
+    public ApplicationDto mapEntityToDto(Application application) {
+        return ApplicationDto.builder()
+                .clientId(application.getClientId())
+                .status(application.getStatus())
+                .requestedAmount(application.getRequestedAmount())
+                .creationDate(application.getCreationDate())
+                .build();
+    }
 }

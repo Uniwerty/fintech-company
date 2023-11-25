@@ -1,13 +1,20 @@
 package com.academy.fintech.origination.grpc.application.v1;
 
+import com.academy.fintech.application.ApplicationCancellationError;
+import com.academy.fintech.application.ApplicationCancellationRequest;
+import com.academy.fintech.application.ApplicationCancellationResponse;
 import com.academy.fintech.application.ApplicationCreationError;
 import com.academy.fintech.application.ApplicationCreationRequest;
 import com.academy.fintech.application.ApplicationCreationResponse;
 import com.academy.fintech.application.ApplicationServiceGrpc;
+import com.academy.fintech.origination.core.application.service.ApplicationCancellationService;
 import com.academy.fintech.origination.core.application.service.ApplicationCreationService;
+import com.academy.fintech.origination.public_interface.application.dto.ApplicationCancellationResult;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationCreationResult;
+import com.google.protobuf.Message;
 import io.grpc.Metadata;
 import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.protobuf.ProtoUtils;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +29,7 @@ import java.util.UUID;
 public class ApplicationController extends ApplicationServiceGrpc.ApplicationServiceImplBase {
     private final ApplicationMapper applicationMapper;
     private final ApplicationCreationService applicationCreationService;
+    private final ApplicationCancellationService applicationCancellationService;
 
     @Override
     public void create(ApplicationCreationRequest request,
@@ -39,20 +47,41 @@ public class ApplicationController extends ApplicationServiceGrpc.ApplicationSer
             responseObserver.onCompleted();
         } else {
             responseObserver.onError(
-                    Status.ALREADY_EXISTS.asRuntimeException(createErrorMetadata(result.applicationId()))
+                    createError(
+                            Status.ALREADY_EXISTS,
+                            ApplicationCreationError.newBuilder()
+                                    .setExistingApplicationId(result.applicationId().toString())
+                                    .build()
+                    )
             );
         }
     }
 
-    private static Metadata createErrorMetadata(UUID existingApplicationId) {
-        Metadata metadata = new Metadata();
-        metadata.put(
-                ProtoUtils.keyForProto(ApplicationCreationError.getDefaultInstance()),
-                ApplicationCreationError.newBuilder()
-                        .setExistingApplicationId(existingApplicationId.toString())
-                        .build()
-        );
-        return metadata;
+    @Override
+    public void cancel(ApplicationCancellationRequest request,
+                       StreamObserver<ApplicationCancellationResponse> responseObserver) {
+        log.info("Application cancellation request received: {}", request);
+        ApplicationCancellationResult result =
+                applicationCancellationService.cancel(UUID.fromString(request.getApplicationId()));
+        if (result.isSuccess()) {
+            responseObserver.onNext(ApplicationCancellationResponse.newBuilder().build());
+            responseObserver.onCompleted();
+        } else {
+            responseObserver.onError(
+                    createError(
+                            Status.UNAVAILABLE,
+                            ApplicationCancellationError.newBuilder()
+                                    .setMessage(result.message())
+                                    .build()
+                    )
+            );
+        }
     }
 
+    private static <T extends Message> StatusRuntimeException createError(Status status,
+                                                                          T message) {
+        Metadata metadata = new Metadata();
+        metadata.put(ProtoUtils.keyForProto(message), message);
+        return status.asRuntimeException(metadata);
+    }
 }

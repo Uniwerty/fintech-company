@@ -18,7 +18,6 @@ public class ApplicationService {
 
     public UUID create(ApplicationDto applicationDto) {
         Application application = applicationMapper.mapDtoToEntity(applicationDto);
-        application.setStatus(ApplicationStatus.NEW);
         applicationRepository.save(application);
         return application.getId();
     }
@@ -27,9 +26,21 @@ public class ApplicationService {
         return applicationRepository
                 .findApplicationByClientIdAndRequestedAmountAndStatus(
                         applicationDto.clientId(),
-                        applicationDto.requiredAmount(),
+                        applicationDto.requestedAmount(),
                         ApplicationStatus.NEW
                 )
                 .map(Application::getId);
+    }
+
+    public Optional<ApplicationDto> findById(UUID id) {
+        return applicationRepository.findById(id).map(applicationMapper::mapEntityToDto);
+    }
+
+    public void deleteById(UUID id) {
+        applicationRepository.deleteById(id);
+    }
+
+    public void cancel(UUID id) {
+
     }
 }
