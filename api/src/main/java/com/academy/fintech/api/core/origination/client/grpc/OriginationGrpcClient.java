@@ -1,7 +1,9 @@
 package com.academy.fintech.api.core.origination.client.grpc;
 
-import com.academy.fintech.application.ApplicationRequest;
-import com.academy.fintech.application.ApplicationResponse;
+import com.academy.fintech.application.ApplicationCancellationRequest;
+import com.academy.fintech.application.ApplicationCancellationResponse;
+import com.academy.fintech.application.ApplicationCreationRequest;
+import com.academy.fintech.application.ApplicationCreationResponse;
 import com.academy.fintech.application.ApplicationServiceGrpc;
 import com.academy.fintech.application.ApplicationServiceGrpc.ApplicationServiceBlockingStub;
 import io.grpc.Channel;
@@ -21,13 +23,21 @@ public class OriginationGrpcClient {
         this.stub = ApplicationServiceGrpc.newBlockingStub(channel);
     }
 
-    public ApplicationResponse createApplication(ApplicationRequest applicationRequest) {
+    public ApplicationCreationResponse createApplication(ApplicationCreationRequest request) {
         try {
-            return stub.create(applicationRequest);
+            return stub.create(request);
         } catch (StatusRuntimeException e) {
-            log.error("Got error from Origination by request: {}", applicationRequest, e);
+            log.error("Got error from Origination by creation request: {}", request, e);
             throw e;
         }
     }
 
+    public ApplicationCancellationResponse cancelApplication(ApplicationCancellationRequest request) {
+        try {
+            return stub.cancel(request);
+        } catch (StatusRuntimeException e) {
+            log.error("Got error from Origination by cancellation request: {}", request, e);
+            throw e;
+        }
+    }
 }

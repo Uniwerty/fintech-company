@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationMapper {
 
-    public ApplicationDto mapRequestToDto(ApplicationRequest request) {
+    public ApplicationDto mapCreationRequestToDto(ApplicationCreationRequest request) {
         return ApplicationDto.builder()
                 .firstName(request.firstName())
                 .lastName(request.lastName())

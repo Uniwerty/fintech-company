@@ -15,9 +15,15 @@ public class ApplicationController {
     private final ApplicationService applicationService;
     private final ApplicationMapper applicationMapper;
 
-    @PostMapping
-    public String create(@RequestBody ApplicationRequest applicationRequest) {
-        return applicationService.createApplication(applicationMapper.mapRequestToDto(applicationRequest));
+    @PostMapping("/create")
+    public String create(@RequestBody ApplicationCreationRequest applicationCreationRequest) {
+        return applicationService.create(
+                applicationMapper.mapCreationRequestToDto(applicationCreationRequest)
+        );
     }
 
+    @PostMapping("/cancel")
+    public String cancel(@RequestBody ApplicationCancellationRequest applicationCancellationRequest) {
+        return applicationService.cancel(applicationCancellationRequest.applicationId());
+    }
 }
