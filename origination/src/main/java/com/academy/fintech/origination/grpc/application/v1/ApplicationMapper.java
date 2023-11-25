@@ -15,7 +15,7 @@ public class ApplicationMapper {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .salary(new BigDecimal(request.getSalary()))
-                .requiredAmount(new BigDecimal(request.getRequiredAmount()))
+                .requestedAmount(new BigDecimal(request.getRequiredAmount()))
                 .creationDate(new Date(request.getCreationDate()))
                 .build();
     }

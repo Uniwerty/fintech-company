@@ -39,8 +39,4 @@ public class ApplicationService {
     public void deleteById(UUID id) {
         applicationRepository.deleteById(id);
     }
-
-    public void cancel(UUID id) {
-
-    }
 }

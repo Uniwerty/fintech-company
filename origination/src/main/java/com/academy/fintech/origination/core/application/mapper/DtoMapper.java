@@ -24,7 +24,7 @@ public class DtoMapper {
         return ApplicationDto.builder()
                 .clientId(clientId)
                 .status(ApplicationStatus.NEW)
-                .requestedAmount(applicationCreationDto.requiredAmount())
+                .requestedAmount(applicationCreationDto.requestedAmount())
                 .creationDate(applicationCreationDto.creationDate())
                 .build();
     }

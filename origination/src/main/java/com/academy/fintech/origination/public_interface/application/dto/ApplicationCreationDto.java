@@ -11,7 +11,7 @@ public record ApplicationCreationDto(
         String lastName,
         String email,
         BigDecimal salary,
-        BigDecimal requiredAmount,
+        BigDecimal requestedAmount,
         Date creationDate
 ) {
 }
