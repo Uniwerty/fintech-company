@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.util.TestSocketUtils;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.junit.jupiter.Container;
@@ -32,7 +33,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Testcontainers
-@DirtiesContext
 @SpringBootTest(classes = Application.class)
 public class AgreementSchedulingServiceTest {
     private static final String PRODUCT_CODE = "CL-1.0";
@@ -57,17 +57,14 @@ public class AgreementSchedulingServiceTest {
             .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger(PostgreSQLContainer.class)));
 
     @DynamicPropertySource
-    static void datasourceProperties(DynamicPropertyRegistry registry) {
+    static void dynamicProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgreSql::getJdbcUrl);
         registry.add("spring.datasource.username", postgreSql::getUsername);
         registry.add("spring.datasource.password", postgreSql::getPassword);
-    }
-
-    @DynamicPropertySource
-    static void liquibaseProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.liquibase.url", postgreSql::getJdbcUrl);
         registry.add("spring.liquibase.user", postgreSql::getUsername);
         registry.add("spring.liquibase.password", postgreSql::getPassword);
+        registry.add("grpc.port", TestSocketUtils::findAvailableTcpPort);
     }
 
     @Test
