@@ -13,10 +13,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClientService {
     private final ClientRepository clientRepository;
-    private final ClientMapper clientMapper;
 
     public UUID create(ClientDto clientDto) {
-        Client client = clientMapper.mapDtoToEntity(clientDto);
+        Client client = ClientMapper.mapDtoToEntity(clientDto);
         clientRepository.save(client);
         return client.getId();
     }

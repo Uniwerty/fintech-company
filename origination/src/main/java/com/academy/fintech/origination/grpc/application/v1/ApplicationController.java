@@ -27,7 +27,6 @@ import java.util.UUID;
 @GRpcService
 @RequiredArgsConstructor
 public class ApplicationController extends ApplicationServiceGrpc.ApplicationServiceImplBase {
-    private final ApplicationMapper applicationMapper;
     private final ApplicationCreationService applicationCreationService;
     private final ApplicationCancellationService applicationCancellationService;
 
@@ -36,7 +35,7 @@ public class ApplicationController extends ApplicationServiceGrpc.ApplicationSer
                        StreamObserver<ApplicationCreationResponse> responseObserver) {
         log.info("Got creation request: {}", request);
         ApplicationCreationResult result = applicationCreationService.create(
-                applicationMapper.mapCreationRequestToDto(request)
+                ApplicationMapper.mapCreationRequestToDto(request)
         );
         if (result.isSuccess()) {
             ApplicationCreationResponse response = ApplicationCreationResponse.newBuilder()

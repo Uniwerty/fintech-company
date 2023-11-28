@@ -17,14 +17,13 @@ import java.util.UUID;
 public class ApplicationCreationService {
     private final ApplicationService applicationService;
     private final ClientCreationService clientCreationService;
-    private final DtoMapper dtoMapper;
 
     public ApplicationCreationResult create(ApplicationCreationDto applicationCreationDto) {
         UUID clientId = clientCreationService.createOrGetExisting(
-                dtoMapper.mapApplicationCreationDtoToClientDto(applicationCreationDto)
+                DtoMapper.mapApplicationCreationDtoToClientDto(applicationCreationDto)
         );
         ApplicationDto applicationDto =
-                dtoMapper.mapApplicationCreationDtoToApplicationDto(clientId, applicationCreationDto);
+                DtoMapper.mapApplicationCreationDtoToApplicationDto(clientId, applicationCreationDto);
         Optional<UUID> previousApplicationOptional = applicationService.findWithNewStatus(applicationDto);
         return previousApplicationOptional
                 .map(ApplicationCreationResult::withFailure)

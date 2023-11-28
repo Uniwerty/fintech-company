@@ -14,10 +14,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
-    private final ApplicationMapper applicationMapper;
 
     public UUID create(ApplicationDto applicationDto) {
-        Application application = applicationMapper.mapDtoToEntity(applicationDto);
+        Application application = ApplicationMapper.mapDtoToEntity(applicationDto);
         applicationRepository.save(application);
         return application.getId();
     }
@@ -33,7 +32,7 @@ public class ApplicationService {
     }
 
     public Optional<ApplicationDto> findById(UUID id) {
-        return applicationRepository.findById(id).map(applicationMapper::mapEntityToDto);
+        return applicationRepository.findById(id).map(ApplicationMapper::mapEntityToDto);
     }
 
     public void deleteById(UUID id) {

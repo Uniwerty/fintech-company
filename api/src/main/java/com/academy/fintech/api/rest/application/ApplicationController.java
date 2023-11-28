@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApplicationController {
 
     private final ApplicationService applicationService;
-    private final ApplicationMapper applicationMapper;
 
     @PostMapping("/create")
     public String create(@RequestBody ApplicationCreationRequest applicationCreationRequest) {
         log.info("Got creation request: {}", applicationCreationRequest);
         return applicationService.create(
-                applicationMapper.mapCreationRequestToDto(applicationCreationRequest)
+                ApplicationMapper.mapCreationRequestToDto(applicationCreationRequest)
         );
     }
 

@@ -2,12 +2,13 @@ package com.academy.fintech.origination.core.application.db.application;
 
 import com.academy.fintech.origination.core.application.db.application.model.Application;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationDto;
+import lombok.experimental.UtilityClass;
 import org.springframework.stereotype.Component;
 
-@Component
+@UtilityClass
 public class ApplicationMapper {
 
-    public Application mapDtoToEntity(ApplicationDto applicationDto) {
+    public static Application mapDtoToEntity(ApplicationDto applicationDto) {
         return Application.builder()
                 .clientId(applicationDto.clientId())
                 .requestedAmount(applicationDto.requestedAmount())
@@ -16,7 +17,7 @@ public class ApplicationMapper {
                 .build();
     }
 
-    public ApplicationDto mapEntityToDto(Application application) {
+    public static ApplicationDto mapEntityToDto(Application application) {
         return ApplicationDto.builder()
                 .clientId(application.getClientId())
                 .status(application.getStatus())

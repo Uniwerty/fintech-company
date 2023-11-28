@@ -2,14 +2,15 @@ package com.academy.fintech.origination.grpc.application.v1;
 
 import com.academy.fintech.application.ApplicationCreationRequest;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationCreationDto;
+import lombok.experimental.UtilityClass;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
-@Component
+@UtilityClass
 public class ApplicationMapper {
-    public ApplicationCreationDto mapCreationRequestToDto(ApplicationCreationRequest request) {
+    public static ApplicationCreationDto mapCreationRequestToDto(ApplicationCreationRequest request) {
         return ApplicationCreationDto.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
