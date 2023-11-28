@@ -21,6 +21,10 @@ public class ProductService {
             throw new IllegalArgumentException("Agreement has an invalid product code");
         }
         Product product = optionalProduct.get();
+        validateAllAgreementValues(agreementCreationDto, product);
+    }
+
+    private static void validateAllAgreementValues(AgreementCreationDto agreementCreationDto, Product product) {
         validateAgreementValue(
                 agreementCreationDto.term(),
                 product.getMinTerm(),
@@ -47,10 +51,10 @@ public class ProductService {
         );
     }
 
-    private <T extends Comparable<? super T>> void validateAgreementValue(T value,
-                                                                          T min,
-                                                                          T max,
-                                                                          String name) {
+    private static <T extends Comparable<? super T>> void validateAgreementValue(T value,
+                                                                                 T min,
+                                                                                 T max,
+                                                                                 String name) {
         if (Objects.compare(value, min, Comparator.naturalOrder()) < 0
                 || Objects.compare(value, max, Comparator.naturalOrder()) > 0) {
             throw new IllegalArgumentException("Agreement has " + name + " out of bounds");
