@@ -18,7 +18,6 @@ import java.util.UUID;
 @GRpcService
 @RequiredArgsConstructor
 public class AgreementController extends AgreementServiceGrpc.AgreementServiceImplBase {
-    private final AgreementMapper agreementMapper;
     private final AgreementCreationService agreementCreationService;
     private final AgreementSchedulingService agreementSchedulingService;
     private final Logger logger = LoggerFactory.getLogger(AgreementController.class);
@@ -28,7 +27,7 @@ public class AgreementController extends AgreementServiceGrpc.AgreementServiceIm
                        StreamObserver<AgreementCreationResponse> responseObserver) {
         logger.info("Agreement creation request for client {} received", request.getClientId());
         UUID createdAgreementId =
-                agreementCreationService.create(agreementMapper.mapCreationRequestToDto(request));
+                agreementCreationService.create(AgreementMapper.mapCreationRequestToDto(request));
         logger.info("New agreement created successfully");
         responseObserver.onNext(
                 AgreementCreationResponse.newBuilder()
@@ -44,7 +43,7 @@ public class AgreementController extends AgreementServiceGrpc.AgreementServiceIm
                          StreamObserver<AgreementActivationResponse> responseObserver) {
         logger.info("Agreement {} activation request received", request.getAgreementId());
         UUID createdScheduleId =
-                agreementSchedulingService.activate(agreementMapper.mapActivationRequestToDto(request));
+                agreementSchedulingService.activate(AgreementMapper.mapActivationRequestToDto(request));
         logger.info("Agreement activated successfully");
         responseObserver.onNext(
                 AgreementActivationResponse.newBuilder()

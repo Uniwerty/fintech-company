@@ -16,10 +16,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AgreementService {
     private final AgreementRepository agreementRepository;
-    private final AgreementMapper agreementMapper;
 
     public UUID create(AgreementCreationDto agreementCreationDto) {
-        Agreement agreement = agreementMapper.mapAgreementCreationDtoToEntity(agreementCreationDto);
+        Agreement agreement = AgreementMapper.mapAgreementCreationDtoToEntity(agreementCreationDto);
         agreement.setStatus(AgreementStatus.NEW.name());
         return agreementRepository.save(agreement).getId();
     }
@@ -29,7 +28,7 @@ public class AgreementService {
         agreement.setStatus(AgreementStatus.ACTIVE.name());
         agreement.setDisbursementDate(agreementActivationDto.disbursementDate());
         agreementRepository.save(agreement);
-        return agreementMapper.mapEntityToPaymentScheduleCreationDto(agreement);
+        return AgreementMapper.mapEntityToPaymentScheduleCreationDto(agreement);
     }
 
     public void setNextPaymentDate(UUID agreementId, Date nextPaymentDate) {

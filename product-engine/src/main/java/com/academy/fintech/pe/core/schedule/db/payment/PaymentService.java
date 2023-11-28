@@ -11,12 +11,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentService {
     private final PaymentRepository paymentRepository;
-    private final PaymentMapper paymentMapper;
 
     public void saveAll(List<PaymentDto> paymentDtos) {
         paymentRepository.saveAll(
                 paymentDtos.stream()
-                        .map(paymentMapper::mapDtoToEntity)
+                        .map(PaymentMapper::mapDtoToEntity)
                         .toList()
         );
     }

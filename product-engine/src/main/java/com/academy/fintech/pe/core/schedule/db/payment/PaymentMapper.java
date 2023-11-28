@@ -2,9 +2,9 @@ package com.academy.fintech.pe.core.schedule.db.payment;
 
 import com.academy.fintech.pe.core.schedule.db.payment.model.Payment;
 import com.academy.fintech.pe.public_interface.payment.dto.PaymentDto;
-import org.springframework.stereotype.Component;
+import lombok.experimental.UtilityClass;
 
-@Component
+@UtilityClass
 public class PaymentMapper {
 
     public Payment mapDtoToEntity(PaymentDto paymentDto) {
