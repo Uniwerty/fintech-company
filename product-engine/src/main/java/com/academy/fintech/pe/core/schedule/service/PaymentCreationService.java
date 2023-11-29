@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -44,7 +45,11 @@ public class PaymentCreationService {
                 periodPayment,
                 paymentCreationDto.term()
         );
-        OffsetDateTime paymentDate = paymentCreationDto.disbursementDate().toInstant().atOffset(ZONE_OFFSET);
+        OffsetDateTime paymentDate = OffsetDateTime.of(
+                paymentCreationDto.disbursementDate().toLocalDate(),
+                LocalTime.MIDNIGHT,
+                ZONE_OFFSET
+        );
         List<PaymentDto> payments = new ArrayList<>(paymentCreationDto.term());
         for (int period = 0; period < paymentCreationDto.term(); period++) {
             BigDecimal interestPayment = interestPayments.get(period);

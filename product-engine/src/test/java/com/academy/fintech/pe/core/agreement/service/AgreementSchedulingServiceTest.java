@@ -24,6 +24,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -36,6 +39,7 @@ import java.util.UUID;
 @SpringBootTest(classes = Application.class)
 public class AgreementSchedulingServiceTest {
     private static final String PRODUCT_CODE = "CL-1.0";
+    private static final ZoneOffset ZONE_OFFSET = ZoneOffset.ofHours(3);
 
     @Autowired
     private AgreementCreationService agreementCreationService;
@@ -103,19 +107,30 @@ public class AgreementSchedulingServiceTest {
         Assertions.assertEquals(agreement.getId(), paymentSchedule.getAgreementId());
         Assertions.assertEquals(1, paymentSchedule.getVersion());
 
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(agreement.getDisbursementDate());
+        OffsetDateTime paymentDate = OffsetDateTime.of(
+                agreement.getDisbursementDate().toLocalDate(),
+                LocalTime.MIDNIGHT,
+                ZONE_OFFSET
+        );
         List<Payment> payments = new ArrayList<>();
         paymentRepository.findAll().forEach(payments::add);
         Assertions.assertEquals(agreement.getTerm(), payments.size());
         BigDecimal paymentsSum = BigDecimal.ZERO;
         for (int i = 0; i < payments.size(); i++) {
             Payment payment = payments.get(i);
-            calendar.add(Calendar.MONTH, 1);
+            paymentDate = paymentDate.plusMonths(1);
             Assertions.assertEquals(createdScheduleId, payment.getScheduleId());
             Assertions.assertEquals("FUTURE", payment.getStatus());
             Assertions.assertEquals(i + 1, payment.getPeriodNumber());
-            Assertions.assertEquals(calendar.getTimeInMillis(), payment.getPaymentDate().getTime());
+            Assertions.assertTrue(
+                    paymentDate.isEqual(
+                            OffsetDateTime.of(
+                                    payment.getPaymentDate().toLocalDate(),
+                                    LocalTime.MIDNIGHT,
+                                    ZONE_OFFSET
+                            )
+                    )
+            );
             paymentsSum = paymentsSum.add(payment.getPrincipalPayment());
         }
         Assertions.assertEquals(
