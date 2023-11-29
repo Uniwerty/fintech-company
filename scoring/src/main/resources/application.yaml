@@ -2,5 +2,5 @@ scoring:
   client:
     pe:
       grpc:
-      host: localhost
-      port: 9095
+        host: localhost
+        port: 9095
