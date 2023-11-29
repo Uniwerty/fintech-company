@@ -1,7 +1,6 @@
 package com.academy.fintech.pe.core.schedule.calculation;
 
 import lombok.experimental.UtilityClass;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -15,8 +14,8 @@ public class PaymentCalculator {
     private static final MathContext DECIMAL_CONTEXT = MathContext.DECIMAL64;
 
     public static BigDecimal calculatePeriodPayment(BigDecimal principalAmount,
-                                             BigDecimal interest,
-                                             int term) {
+                                                    BigDecimal interest,
+                                                    int term) {
         BigDecimal periodIncrease = BigDecimal.ONE.add(getPeriodInterest(interest));
         BigDecimal increase = periodIncrease;
         BigDecimal increasesSum = BigDecimal.ONE;
@@ -30,9 +29,9 @@ public class PaymentCalculator {
     }
 
     public static List<BigDecimal> calculateInterestPayments(BigDecimal principalAmount,
-                                                      BigDecimal interest,
-                                                      BigDecimal periodPayment,
-                                                      int term) {
+                                                             BigDecimal interest,
+                                                             BigDecimal periodPayment,
+                                                             int term) {
         List<BigDecimal> interestPayments = new ArrayList<>(term);
         BigDecimal periodInterest = getPeriodInterest(interest);
         BigDecimal periodIncrease = BigDecimal.ONE.add(periodInterest);

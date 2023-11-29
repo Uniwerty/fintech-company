@@ -5,14 +5,12 @@ import com.academy.fintech.agreement.AgreementActivationResponse;
 import com.academy.fintech.agreement.AgreementCreationRequest;
 import com.academy.fintech.agreement.AgreementCreationResponse;
 import com.academy.fintech.agreement.AgreementServiceGrpc;
-import com.academy.fintech.pe.core.agreement.service.AgreementSchedulingService;
 import com.academy.fintech.pe.core.agreement.service.AgreementCreationService;
+import com.academy.fintech.pe.core.agreement.service.AgreementSchedulingService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 

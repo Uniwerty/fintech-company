@@ -1,7 +1,6 @@
 package com.academy.fintech.scoring.grpc.scoring.v1;
 
 import com.academy.fintech.scoring.ScoringRequest;
-import com.academy.fintech.scoring.public_interface.dto.ScoringRequestDto;
 import com.academy.fintech.scoring.public_interface.application.dto.ApplicationDto;
 import lombok.experimental.UtilityClass;
 

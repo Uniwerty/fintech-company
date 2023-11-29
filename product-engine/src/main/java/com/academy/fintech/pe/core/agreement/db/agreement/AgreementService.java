@@ -5,7 +5,6 @@ import com.academy.fintech.pe.core.agreement.db.agreement.repository.AgreementRe
 import com.academy.fintech.pe.core.agreement.status.AgreementStatus;
 import com.academy.fintech.pe.public_interface.agreement.dto.AgreementActivationDto;
 import com.academy.fintech.pe.public_interface.agreement.dto.AgreementCreationDto;
-import com.academy.fintech.pe.public_interface.agreement.dto.AgreementDto;
 import com.academy.fintech.pe.public_interface.schedule.dto.PaymentScheduleCreationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
