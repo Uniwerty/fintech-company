@@ -11,14 +11,15 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentCreationService {
+    private static final ZoneOffset ZONE_OFFSET = ZoneOffset.ofHours(3);
     private final PaymentService paymentService;
     private final PaymentCalculator paymentCalculator;
 
@@ -43,17 +44,16 @@ public class PaymentCreationService {
                 periodPayment,
                 paymentCreationDto.term()
         );
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(paymentCreationDto.disbursementDate());
+        OffsetDateTime paymentDate = paymentCreationDto.disbursementDate().toInstant().atOffset(ZONE_OFFSET);
         List<PaymentDto> payments = new ArrayList<>(paymentCreationDto.term());
         for (int period = 0; period < paymentCreationDto.term(); period++) {
             BigDecimal interestPayment = interestPayments.get(period);
-            calendar.add(Calendar.MONTH, 1);
+            paymentDate = paymentDate.plusMonths(1);
             payments.add(
                     PaymentDto.builder()
                             .scheduleId(paymentCreationDto.scheduleId())
                             .status(PaymentStatus.FUTURE.name())
-                            .date(new Date(calendar.getTime().getTime()))
+                            .date(Date.valueOf(paymentDate.toLocalDate()))
                             .interestPayment(interestPayment)
                             .principalPayment(periodPayment.subtract(interestPayment))
                             .periodNumber(period + 1)
