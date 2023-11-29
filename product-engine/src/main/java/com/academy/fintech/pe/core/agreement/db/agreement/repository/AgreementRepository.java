@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -23,4 +24,6 @@ public interface AgreementRepository extends CrudRepository<Agreement, UUID> {
             nativeQuery = true)
     void updateAgreementNextPaymentDate(@Param("id") UUID agreementId,
                                         @Param("date") Date nextPaymentDate);
+
+    List<Agreement> findAgreementsByClientId(UUID clientId);
 }

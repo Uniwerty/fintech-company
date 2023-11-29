@@ -15,6 +15,10 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
 
+    public Product getProductByCode(String code) {
+        return productRepository.findById(code).orElseThrow();
+    }
+
     public void validateAgreement(AgreementCreationDto agreementCreationDto) {
         Optional<Product> optionalProduct = productRepository.findById(agreementCreationDto.productCode());
         if (optionalProduct.isEmpty()) {
