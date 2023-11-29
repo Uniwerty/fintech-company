@@ -4,9 +4,9 @@ services:
     image: postgres:14.1-alpine
     restart: always
     environment:
-      - POSTGRES_DB=fintech
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=product-engine-db
+      - POSTGRES_USER=product-engine
+      - POSTGRES_PASSWORD=product-engine
     ports:
       - '5432:5432'
     volumes:
