@@ -8,9 +8,6 @@ import com.academy.fintech.scoring.public_interface.application.dto.ApplicationD
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class ProductEngineClientService {
@@ -24,14 +21,6 @@ public class ProductEngineClientService {
                         .setRequestedAmount(applicationDto.requestedAmount().toString())
                         .build()
         );
-        return mapResponseToResult(response);
-    }
-
-    private static ApplicationCalculationResult mapResponseToResult(ApplicationCalculationResponse response) {
-        return ApplicationCalculationResult.builder()
-                .clientId(UUID.fromString(response.getClientId()))
-                .periodPayment(new BigDecimal(response.getPeriodPayment()))
-                .daysOverdue(response.getDaysOverdue())
-                .build();
+        return ProductEngineClientMapper.mapResponseToResult(response);
     }
 }
