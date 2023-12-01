@@ -1,7 +1,7 @@
-package com.academy.fintech.scoring;
+package com.academy.fintech.scoring.core.service;
 
+import com.academy.fintech.scoring.Application;
 import com.academy.fintech.scoring.core.pe.client.ProductEngineClientService;
-import com.academy.fintech.scoring.core.service.ScoringService;
 import com.academy.fintech.scoring.public_interface.application.dto.ApplicationCalculationResult;
 import com.academy.fintech.scoring.public_interface.application.dto.ApplicationDto;
 import org.junit.jupiter.api.Assertions;
