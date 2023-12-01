@@ -2,8 +2,8 @@ package com.academy.fintech.origination.core.application.db.application;
 
 import com.academy.fintech.origination.core.application.db.application.model.Application;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationDto;
+import com.academy.fintech.origination.public_interface.application.dto.ApplicationScoringDto;
 import lombok.experimental.UtilityClass;
-import org.springframework.stereotype.Component;
 
 @UtilityClass
 public class ApplicationMapper {
@@ -23,6 +23,14 @@ public class ApplicationMapper {
                 .status(application.getStatus())
                 .requestedAmount(application.getRequestedAmount())
                 .creationDate(application.getCreationDate())
+                .build();
+    }
+
+    public static ApplicationScoringDto mapEntityToScoringDto(Application application) {
+        return ApplicationScoringDto.builder()
+                .id(application.getId())
+                .clientId(application.getClientId())
+                .requestedAmount(application.getRequestedAmount())
                 .build();
     }
 }

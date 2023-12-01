@@ -26,6 +26,8 @@ protobuf-java-util = { module = "com.google.protobuf:protobuf-java-util", versio
 grpc-protobuf = { module = "io.grpc:grpc-protobuf", version = "1.54.1" }
 grpc-stub = { module = "io.grpc:grpc-stub", version = "1.55.1" }
 
+spring-mail = { module = "org.springframework.boot:spring-boot-starter-mail", version.ref = "spring-boot" }
+
 #Test libraries
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
 jupiter = { module = "org.junit.jupiter:junit-jupiter", version = "5.10.0" }

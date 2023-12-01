@@ -11,6 +11,8 @@ dependencies {
     implementation libs.grpc.protobuf
     implementation libs.grpc.stub
     implementation libs.protobuf.java
+
+    implementation libs.spring.mail
 }
 
 protobuf {

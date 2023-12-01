@@ -29,4 +29,8 @@ public class ClientService {
                 );
         return clientOptional.map(Client::getId);
     }
+
+    public Optional<ClientDto> findById(UUID id) {
+        return clientRepository.findById(id).map(ClientMapper::mapEntityToDto);
+    }
 }
