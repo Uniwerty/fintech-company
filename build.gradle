@@ -20,7 +20,6 @@ subprojects {
         implementation libs.lombok
         annotationProcessor libs.lombok
         implementation libs.bundles.grpc
-        implementation libs.bundles.database
         testImplementation libs.bundles.testing
     }
 
