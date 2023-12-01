@@ -21,15 +21,14 @@ public class OriginationClientService {
     private final OriginationGrpcClient originationGrpcClient;
 
     public String createApplication(ApplicationDto applicationDto) {
-        ApplicationCreationRequest request = mapDtoToCreationRequest(applicationDto);
+        ApplicationCreationRequest request = OriginationClientMapper.mapDtoToCreationRequest(applicationDto);
         try {
             ApplicationCreationResponse response = originationGrpcClient.createApplication(request);
             return response.getApplicationId();
         } catch (StatusRuntimeException e) {
             if (e.getTrailers() != null) {
-                ApplicationCreationError error =
-                        e.getTrailers()
-                                .get(ProtoUtils.keyForProto(ApplicationCreationError.getDefaultInstance()));
+                ApplicationCreationError error = e.getTrailers()
+                        .get(ProtoUtils.keyForProto(ApplicationCreationError.getDefaultInstance()));
                 if (error != null) {
                     return error.getExistingApplicationId();
                 }
@@ -57,15 +56,5 @@ public class OriginationClientService {
             }
             return UNKNOWN_RESULT;
         }
-    }
-
-    private static ApplicationCreationRequest mapDtoToCreationRequest(ApplicationDto applicationDto) {
-        return ApplicationCreationRequest.newBuilder()
-                .setFirstName(applicationDto.firstName())
-                .setLastName(applicationDto.lastName())
-                .setEmail(applicationDto.email())
-                .setSalary(applicationDto.salary())
-                .setDisbursementAmount(applicationDto.amount())
-                .build();
     }
 }
