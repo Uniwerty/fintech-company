@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OriginationClientService {
-    private static final String UNKNOWN_RESULT = "Unknown result";
-
     private final OriginationGrpcClient originationGrpcClient;
 
     public String createApplication(ApplicationDto applicationDto) {
@@ -33,7 +31,7 @@ public class OriginationClientService {
                     return error.getExistingApplicationId();
                 }
             }
-            return UNKNOWN_RESULT;
+            return null;
         }
     }
 
@@ -44,7 +42,7 @@ public class OriginationClientService {
                             .setApplicationId(applicationId)
                             .build()
             );
-            return "Canceled successfully";
+            return applicationId;
         } catch (StatusRuntimeException e) {
             if (e.getTrailers() != null) {
                 ApplicationCancellationError error =
@@ -54,7 +52,7 @@ public class OriginationClientService {
                     return error.getMessage();
                 }
             }
-            return UNKNOWN_RESULT;
+            return null;
         }
     }
 }
