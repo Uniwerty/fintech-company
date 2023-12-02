@@ -22,7 +22,8 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 				HttpMessageConvertersAutoConfiguration.class,
 				HttpEncodingAutoConfiguration.class,
 				ErrorMvcAutoConfiguration.class
-		}
+		},
+		nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 public class Application {
 

@@ -11,8 +11,12 @@ public class ApplicationService {
 
     private final OriginationClientService originationClientService;
 
-    public String createApplication(ApplicationDto applicationDto) {
+    public String create(ApplicationDto applicationDto) {
         return originationClientService.createApplication(applicationDto);
+    }
+
+    public String cancel(String id) {
+        return originationClientService.cancelApplication(id);
     }
 
 }

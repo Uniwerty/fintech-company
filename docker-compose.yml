@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  db:
+  product-engine-db:
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -10,8 +10,21 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - db:/var/lib/postgresql/data
+      - product-engine-db:/var/lib/postgresql/data
+  origination-db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=origination-db
+      - POSTGRES_USER=origination
+      - POSTGRES_PASSWORD=origination
+    ports:
+      - '5432:5432'
+    volumes:
+      - origination-db:/var/lib/postgresql/data
 
 volumes:
-  db:
+  product-engine-db:
+    driver: local
+  origination-db:
     driver: local
