@@ -12,14 +12,8 @@ public class ScoringClientService {
     private final ScoringGrpcClient scoringGrpcClient;
 
     public boolean getApprovalVerdict(ScoringRequestDto requestDto) {
-        return scoringGrpcClient.getApprovalVerdict(mapDtoToRequest(requestDto)).getApproved();
-    }
-
-    private static ScoringRequest mapDtoToRequest(ScoringRequestDto requestDto) {
-        return ScoringRequest.newBuilder()
-                .setClientId(requestDto.clientId().toString())
-                .setSalary(requestDto.salary().toString())
-                .setRequestedAmount(requestDto.requestedAmount().toString())
-                .build();
+        return scoringGrpcClient
+                .getApprovalVerdict(ScoringClientMapper.mapDtoToRequest(requestDto))
+                .getApproved();
     }
 }
