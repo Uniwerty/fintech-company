@@ -31,6 +31,8 @@ public class ClientService {
     }
 
     public Optional<ClientDto> findById(UUID id) {
-        return clientRepository.findById(id).map(ClientMapper::mapEntityToDto);
+        return clientRepository
+                .findById(id)
+                .map(ClientMapper::mapEntityToDto);
     }
 }
