@@ -21,63 +21,64 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class ApplicationScoringService {
-    private static final int SCORING_DELAY = 5;
-    private static final String SENDER_MAIL = "noreply@fintech.academy.com";
     private final ScoringClientService scoringClientService;
     private final ApplicationService applicationService;
     private final ClientService clientService;
     private final JavaMailSender javaMailSender;
+    private final ApplicationScoringServiceProperty property;
 
-    @Scheduled(fixedDelay = SCORING_DELAY, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.MINUTES)
     public void scoreNewApplications() {
         log.info("Sending new applications to scoring");
-        for (ApplicationScoringDto applicationScoringDto : applicationService.findAllNew()) {
-            updateScoring(applicationScoringDto.id());
         for (ApplicationScoringDto applicationScoringDto : applicationService.findAllWithNewStatus()) {
+            applicationService.updateStatus(applicationScoringDto.id(), ApplicationStatus.SCORING);
             ClientDto clientDto = clientService.findById(applicationScoringDto.clientId()).orElseThrow();
-            boolean approved = scoringClientService.getApprovalVerdict(
+            boolean isApproved = scoringClientService.getApprovalVerdict(
                     ScoringRequestDto.builder()
                             .clientId(applicationScoringDto.clientId())
                             .salary(clientDto.salary())
                             .requestedAmount(applicationScoringDto.requestedAmount())
                             .build()
             );
-            if (approved) {
-                updateAccepted(applicationScoringDto.id());
-                sendEmail(clientDto, applicationScoringDto.id(), "одобрена");
+            if (isApproved) {
+                applicationService.updateStatus(applicationScoringDto.id(), ApplicationStatus.ACCEPTED);
+                sendEmail(clientDto, applicationScoringDto.id(), property.acceptedStatus());
             } else {
-                updateClosed(applicationScoringDto.id());
-                sendEmail(clientDto, applicationScoringDto.id(), "отклонена");
+                applicationService.updateStatus(applicationScoringDto.id(), ApplicationStatus.CLOSED);
+                sendEmail(clientDto, applicationScoringDto.id(), property.closedStatus());
             }
         }
     }
 
     private void sendEmail(ClientDto clientDto, UUID applicationId, String verdict) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(SENDER_MAIL);
+        message.setFrom(property.senderMail());
         message.setTo(clientDto.email());
-        message.setSubject("Статус вашей заявки обновлен");
+        message.setSubject(property.subject());
         message.setText(
-                String.format(
-                        "Уважаемый(ая) %s %s!%nСообщаем Вам, что заявка № %s %s.%nFintech Academy",
+                getEmailMessage(
                         clientDto.lastName(),
                         clientDto.firstName(),
-                        applicationId.toString(),
+                        applicationId,
                         verdict
                 )
         );
         javaMailSender.send(message);
     }
 
-    private void updateScoring(UUID id) {
-        applicationService.updateStatus(id, ApplicationStatus.SCORING);
-    }
-
-    private void updateAccepted(UUID id) {
-        applicationService.updateStatus(id, ApplicationStatus.ACCEPTED);
-    }
-
-    private void updateClosed(UUID id) {
-        applicationService.updateStatus(id, ApplicationStatus.CLOSED);
+    private String getEmailMessage(String lastName,
+                                   String firstName,
+                                   UUID applicationId,
+                                   String verdict) {
+        return String.format(
+                "%s %s %s!%n%s %s %s.%n%s",
+                property.greeting(),
+                lastName,
+                firstName,
+                property.message(),
+                applicationId.toString(),
+                verdict,
+                property.conclusion()
+        );
     }
 }

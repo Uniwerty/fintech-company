@@ -11,6 +11,16 @@ origination:
       grpc:
         host: localhost
         port: 9096
+  application:
+    service:
+      scoring:
+        senderMail: noreply@fintech.academy.com
+        subject: "Статус вашей заявки обновлен"
+        acceptedStatus: "одобрена"
+        closedStatus: "отклонена"
+        greeting: "Уважаемый(ая)"
+        message: "Сообщаем Вам, что заявка №"
+        conclusion: "Fintech Academy"
 
 spring:
   liquibase:
