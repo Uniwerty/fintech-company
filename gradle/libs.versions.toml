@@ -38,5 +38,5 @@ testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.
 [bundles]
 spring = ["spring-starter", "spring-web", "spring-actuator"]
 grpc = ["spring-grpc", "protobuf-java", "protobuf-java-util", "grpc-protobuf", "grpc-stub", "javax-annotation"]
-database = ["postgresql-driver", "liquibase", "spring-jpa"]
+database = ["postgresql-driver", "liquibase", "spring-jpa", "lombok"]
 testing = ["spring-test", "jupiter", "testcontainers-core", "testcontainers-jupiter", "testcontainers-postgresql"]
