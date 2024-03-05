@@ -5,6 +5,23 @@ grpc:
   port: 9094
   enable-reflection: true
 
+origination:
+  client:
+    scoring:
+      grpc:
+        host: localhost
+        port: 9096
+  application:
+    service:
+      scoring:
+        senderMail: noreply@fintech.academy.com
+        subject: "Статус вашей заявки обновлен"
+        acceptedStatus: "одобрена"
+        closedStatus: "отклонена"
+        greeting: "Уважаемый(ая)"
+        message: "Сообщаем Вам, что заявка №"
+        conclusion: "Fintech Academy"
+
 spring:
   liquibase:
     enabled: true
@@ -16,3 +33,14 @@ spring:
     url: jdbc:postgresql://localhost:5432/origination-db
     username: origination
     password: origination
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 22ivchenkov@gmail.com
+    password: pzlw zogb hwur ngrx
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

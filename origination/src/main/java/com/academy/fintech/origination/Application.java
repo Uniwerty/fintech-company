@@ -11,26 +11,28 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 import org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(
-		exclude = {
-				GsonAutoConfiguration.class,
-				MultipartAutoConfiguration.class,
-				WebSocketServletAutoConfiguration.class,
-				NettyAutoConfiguration.class,
-				RestTemplateAutoConfiguration.class,
-				HttpMessageConvertersAutoConfiguration.class,
-				HttpEncodingAutoConfiguration.class,
-				ErrorMvcAutoConfiguration.class
-		},
-		nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
+        exclude = {
+                GsonAutoConfiguration.class,
+                MultipartAutoConfiguration.class,
+                WebSocketServletAutoConfiguration.class,
+                NettyAutoConfiguration.class,
+                RestTemplateAutoConfiguration.class,
+                HttpMessageConvertersAutoConfiguration.class,
+                HttpEncodingAutoConfiguration.class,
+                ErrorMvcAutoConfiguration.class
+        },
+        nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
+@EnableScheduling
 public class Application {
 
-	public static void main(String[] args) {
-		new SpringApplicationBuilder(Application.class)
-				.beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
-				.run(args);
-	}
+    public static void main(String[] args) {
+        new SpringApplicationBuilder(Application.class)
+                .beanNameGenerator(new FullyQualifiedAnnotationBeanNameGenerator())
+                .run(args);
+    }
 
 }

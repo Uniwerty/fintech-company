@@ -5,7 +5,6 @@ import com.academy.fintech.origination.public_interface.application.dto.Applicat
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationDto;
 import com.academy.fintech.origination.public_interface.client.dto.ClientDto;
 import lombok.experimental.UtilityClass;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
@@ -21,7 +20,7 @@ public class DtoMapper {
     }
 
     public static ApplicationDto mapApplicationCreationDtoToApplicationDto(UUID clientId,
-                                                                    ApplicationCreationDto applicationCreationDto) {
+                                                                           ApplicationCreationDto applicationCreationDto) {
         return ApplicationDto.builder()
                 .clientId(clientId)
                 .status(ApplicationStatus.NEW)

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package com.academy.fintech.scoring;
+
+option java_multiple_files = true;
+
+service ApplicationCalculationService{
+  rpc GetApplicationInfo(ApplicationCalculationRequest) returns (ApplicationCalculationResponse) {}
+}
+
+message ApplicationCalculationRequest{
+  string clientId = 1;
+  string salary = 2;
+  string requestedAmount = 3;
+}
+
+message ApplicationCalculationResponse{
+  string clientId = 1;
+  string periodPayment = 2;
+  int32 daysOverdue = 3;
+}

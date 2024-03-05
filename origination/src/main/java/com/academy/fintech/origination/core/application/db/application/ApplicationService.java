@@ -4,9 +4,11 @@ import com.academy.fintech.origination.core.application.db.application.model.App
 import com.academy.fintech.origination.core.application.db.application.repository.ApplicationRepository;
 import com.academy.fintech.origination.core.application.status.ApplicationStatus;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationDto;
+import com.academy.fintech.origination.public_interface.application.dto.ApplicationScoringDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,5 +39,17 @@ public class ApplicationService {
 
     public void deleteById(UUID id) {
         applicationRepository.deleteById(id);
+    }
+
+    public List<ApplicationScoringDto> findAllWithNewStatus() {
+        return applicationRepository
+                .findAllByStatus(ApplicationStatus.NEW)
+                .stream()
+                .map(ApplicationMapper::mapEntityToScoringDto)
+                .toList();
+    }
+
+    public void updateStatus(UUID id, ApplicationStatus status) {
+        applicationRepository.updateStatusById(id, status);
     }
 }

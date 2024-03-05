@@ -10,11 +10,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AgreementService {
+    private static final ZoneOffset ZONE_OFFSET = ZoneOffset.ofHours(3);
     private final AgreementRepository agreementRepository;
 
     public UUID create(AgreementCreationDto agreementCreationDto) {
@@ -33,5 +38,22 @@ public class AgreementService {
 
     public void setNextPaymentDate(UUID agreementId, Date nextPaymentDate) {
         agreementRepository.updateAgreementNextPaymentDate(agreementId, nextPaymentDate);
+    }
+
+    public List<OffsetDateTime> getClientNextPaymentDates(UUID clientId) {
+        return agreementRepository
+                .findAgreementsByClientId(clientId)
+                .stream()
+                .map(Agreement::getNextPaymentDate)
+                .map(AgreementService::offsetDateTimeOf)
+                .toList();
+    }
+
+    private static OffsetDateTime offsetDateTimeOf(Date date) {
+        return OffsetDateTime.of(
+                date.toLocalDate(),
+                LocalTime.MIDNIGHT,
+                ZONE_OFFSET
+        );
     }
 }

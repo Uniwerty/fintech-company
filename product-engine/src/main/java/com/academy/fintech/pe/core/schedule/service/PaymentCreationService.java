@@ -22,7 +22,6 @@ import java.util.List;
 public class PaymentCreationService {
     private static final ZoneOffset ZONE_OFFSET = ZoneOffset.ofHours(3);
     private final PaymentService paymentService;
-    private final PaymentCalculator paymentCalculator;
 
     public NextPaymentDto create(PaymentCreationDto paymentCreationDto) {
         List<PaymentDto> paymentDtos = getPaymentDtosList(paymentCreationDto);
@@ -34,12 +33,12 @@ public class PaymentCreationService {
     }
 
     private List<PaymentDto> getPaymentDtosList(PaymentCreationDto paymentCreationDto) {
-        BigDecimal periodPayment = paymentCalculator.calculatePeriodPayment(
+        BigDecimal periodPayment = PaymentCalculator.calculatePeriodPayment(
                 paymentCreationDto.principalAmount(),
                 paymentCreationDto.interest(),
                 paymentCreationDto.term()
         );
-        List<BigDecimal> interestPayments = paymentCalculator.calculateInterestPayments(
+        List<BigDecimal> interestPayments = PaymentCalculator.calculateInterestPayments(
                 paymentCreationDto.principalAmount(),
                 paymentCreationDto.interest(),
                 periodPayment,
