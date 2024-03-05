@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Transactional
 public interface ApplicationRepository extends CrudRepository<Application, UUID> {
     Optional<Application> findApplicationByClientIdAndRequestedAmountAndStatus(UUID clientId,
                                                                                BigDecimal requestedAmount,
@@ -23,7 +24,6 @@ public interface ApplicationRepository extends CrudRepository<Application, UUID>
     List<Application> findAllByStatus(ApplicationStatus status);
 
     @Modifying
-    @Transactional
     @Query(value = """
             UPDATE applications SET
             status = :status
