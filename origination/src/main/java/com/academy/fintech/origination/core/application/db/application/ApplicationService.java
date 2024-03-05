@@ -41,7 +41,7 @@ public class ApplicationService {
         applicationRepository.deleteById(id);
     }
 
-    public List<ApplicationScoringDto> findAllNew() {
+    public List<ApplicationScoringDto> findAllWithNewStatus() {
         return applicationRepository
                 .findAllByStatus(ApplicationStatus.NEW)
                 .stream()

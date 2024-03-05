@@ -33,6 +33,7 @@ public class ApplicationScoringService {
         log.info("Sending new applications to scoring");
         for (ApplicationScoringDto applicationScoringDto : applicationService.findAllNew()) {
             updateScoring(applicationScoringDto.id());
+        for (ApplicationScoringDto applicationScoringDto : applicationService.findAllWithNewStatus()) {
             ClientDto clientDto = clientService.findById(applicationScoringDto.clientId()).orElseThrow();
             boolean approved = scoringClientService.getApprovalVerdict(
                     ScoringRequestDto.builder()
