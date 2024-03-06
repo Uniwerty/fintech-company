@@ -16,5 +16,5 @@ message ScoringRequest{
 
 message ScoringResponse{
   string clientId = 1;
-  bool approved = 2;
+  bool isApproved = 2;
 }

@@ -22,7 +22,7 @@ public class ScoringController extends ScoringServiceGrpc.ScoringServiceImplBase
         responseObserver.onNext(
                 ScoringResponse.newBuilder()
                         .setClientId(request.getClientId())
-                        .setApproved(approved)
+                        .setIsApproved(approved)
                         .build()
         );
         responseObserver.onCompleted();
