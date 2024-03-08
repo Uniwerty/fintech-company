@@ -14,7 +14,7 @@ This service
 ProtoBuf interface specifications:
 
 - payment gate interaction interface:
-  [AgreementServiceV1.proto](../src/main/proto/pg/AgreementServiceV1.proto)
+  [AgreementServiceV1.proto](../src/main/proto/pe/AgreementServiceV1.proto)
 - scoring interaction interface:
   [ApplicationCalculationServiceV1.proto](../src/main/proto/scoring/ApplicationCalculationServiceV1.proto)
 
