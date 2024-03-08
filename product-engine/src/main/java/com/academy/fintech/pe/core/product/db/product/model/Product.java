@@ -1,4 +1,4 @@
-package com.academy.fintech.pe.core.agreement.db.product.model;
+package com.academy.fintech.pe.core.product.db.product.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

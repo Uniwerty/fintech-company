@@ -1,6 +1,6 @@
-package com.academy.fintech.pe.core.agreement.db.product.repository;
+package com.academy.fintech.pe.core.product.db.product.repository;
 
-import com.academy.fintech.pe.core.agreement.db.product.model.Product;
+import com.academy.fintech.pe.core.product.db.product.model.Product;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

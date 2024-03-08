@@ -1,7 +1,7 @@
-package com.academy.fintech.pe.core.agreement.db.product;
+package com.academy.fintech.pe.core.product.db.product;
 
-import com.academy.fintech.pe.core.agreement.db.product.model.Product;
-import com.academy.fintech.pe.core.agreement.db.product.repository.ProductRepository;
+import com.academy.fintech.pe.core.product.db.product.model.Product;
+import com.academy.fintech.pe.core.product.db.product.repository.ProductRepository;
 import com.academy.fintech.pe.public_interface.agreement.dto.AgreementCreationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

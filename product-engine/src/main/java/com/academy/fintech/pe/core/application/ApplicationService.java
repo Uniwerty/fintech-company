@@ -1,8 +1,8 @@
 package com.academy.fintech.pe.core.application;
 
 import com.academy.fintech.pe.core.agreement.db.agreement.AgreementService;
-import com.academy.fintech.pe.core.agreement.db.product.ProductService;
-import com.academy.fintech.pe.core.agreement.db.product.model.Product;
+import com.academy.fintech.pe.core.product.db.product.ProductService;
+import com.academy.fintech.pe.core.product.db.product.model.Product;
 import com.academy.fintech.pe.core.schedule.calculation.PaymentCalculator;
 import com.academy.fintech.pe.public_interface.application.dto.ApplicationDto;
 import lombok.RequiredArgsConstructor;
