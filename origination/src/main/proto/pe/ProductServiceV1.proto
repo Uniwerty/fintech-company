@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.academy.fintech.product;
+
+option java_multiple_files = true;
+
+service ProductService{
+  rpc GetProductParameters(ProductParametersRequest) returns (ProductParametersResponse) {}
+}
+
+message ProductParametersRequest{
+  string productCode = 1;
+}
+
+message ProductParametersResponse{
+  string originationAmount = 1;
+  string interest = 2;
+  int32 term = 3;
+}
