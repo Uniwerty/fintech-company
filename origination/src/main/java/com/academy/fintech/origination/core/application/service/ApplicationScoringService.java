@@ -1,12 +1,19 @@
 package com.academy.fintech.origination.core.application.service;
 
 import com.academy.fintech.origination.core.application.db.application.ApplicationService;
+import com.academy.fintech.origination.core.application.service.configuration.ApplicationScoringServiceProperty;
 import com.academy.fintech.origination.core.application.status.ApplicationStatus;
 import com.academy.fintech.origination.core.client.db.client.ClientService;
+import com.academy.fintech.origination.core.pe.client.ProductEngineClientService;
+import com.academy.fintech.origination.core.pg.client.PaymentGateClientService;
 import com.academy.fintech.origination.core.scoring.client.ScoringClientService;
+import com.academy.fintech.origination.public_interface.agreement.dto.AgreementActivationDto;
+import com.academy.fintech.origination.public_interface.agreement.dto.AgreementCreationDto;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationScoringDto;
 import com.academy.fintech.origination.public_interface.application.dto.ScoringRequestDto;
 import com.academy.fintech.origination.public_interface.client.dto.ClientDto;
+import com.academy.fintech.origination.public_interface.payment.dto.PaymentRequestDto;
+import com.academy.fintech.origination.public_interface.product.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,6 +21,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -21,33 +29,82 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class ApplicationScoringService {
+    private final ProductEngineClientService productEngineClientService;
     private final ScoringClientService scoringClientService;
+    private final PaymentGateClientService paymentGateClientService;
     private final ApplicationService applicationService;
     private final ClientService clientService;
     private final JavaMailSender javaMailSender;
     private final ApplicationScoringServiceProperty property;
 
+    /**
+     * Sends new applications to scoring, changes their status
+     * and sends emails to clients about status change.
+     * <p>
+     * If the application is approved, processes it.
+     */
     @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.MINUTES)
     public void scoreNewApplications() {
         log.info("Sending new applications to scoring");
         for (ApplicationScoringDto applicationScoringDto : applicationService.findAllWithNewStatus()) {
-            applicationService.updateStatus(applicationScoringDto.id(), ApplicationStatus.SCORING);
-            ClientDto clientDto = clientService.findById(applicationScoringDto.clientId()).orElseThrow();
+            UUID applicationId = applicationScoringDto.id();
+            UUID clientId = applicationScoringDto.clientId();
+            applicationService.updateStatus(applicationId, ApplicationStatus.SCORING);
+            logApplicationStatusChange(applicationId, ApplicationStatus.SCORING);
+            ClientDto clientDto = clientService.findById(clientId).orElseThrow();
             boolean isApproved = scoringClientService.getApprovalVerdict(
                     ScoringRequestDto.builder()
-                            .clientId(applicationScoringDto.clientId())
+                            .clientId(clientId)
                             .salary(clientDto.salary())
                             .requestedAmount(applicationScoringDto.requestedAmount())
                             .build()
             );
             if (isApproved) {
-                applicationService.updateStatus(applicationScoringDto.id(), ApplicationStatus.ACCEPTED);
-                sendEmail(clientDto, applicationScoringDto.id(), property.acceptedStatus());
+                applicationService.updateStatus(applicationId, ApplicationStatus.ACCEPTED);
+                logApplicationStatusChange(applicationId, ApplicationStatus.ACCEPTED);
+                sendEmail(clientDto, applicationId, property.acceptedStatus());
+                processAcceptedApplication(applicationScoringDto);
             } else {
-                applicationService.updateStatus(applicationScoringDto.id(), ApplicationStatus.CLOSED);
-                sendEmail(clientDto, applicationScoringDto.id(), property.closedStatus());
+                applicationService.updateStatus(applicationId, ApplicationStatus.CLOSED);
+                logApplicationStatusChange(applicationId, ApplicationStatus.CLOSED);
+                sendEmail(clientDto, applicationId, property.closedStatus());
             }
         }
+    }
+
+    /**
+     * Creates an agreement according to the given application,
+     * makes a disbursement and activates the agreement.
+     * @param applicationScoringDto the DTO to process the application
+     */
+    private void processAcceptedApplication(ApplicationScoringDto applicationScoringDto) {
+        ProductDto productDto = productEngineClientService
+                .getProductParameters(property.defaultProductCode());
+        UUID agreementId = productEngineClientService.createAgreement(
+                AgreementCreationDto.builder()
+                        .clientId(applicationScoringDto.clientId())
+                        .productCode(property.defaultProductCode())
+                        .disbursementAmount(applicationScoringDto.requestedAmount())
+                        .originationAmount(productDto.originationAmount())
+                        .interest(productDto.interest())
+                        .term(productDto.term())
+                        .build()
+        );
+        log.info("The agreement {} is created", agreementId);
+        Date disbursementDate = paymentGateClientService.makeDisbursement(
+                PaymentRequestDto.builder()
+                        .clientId(applicationScoringDto.clientId())
+                        .amount(applicationScoringDto.requestedAmount())
+                        .build()
+        );
+        log.info("Disbursement according to the agreement {} is done", agreementId);
+        productEngineClientService.activateAgreement(
+                AgreementActivationDto.builder()
+                        .id(agreementId)
+                        .disbursementDate(disbursementDate)
+                        .build()
+        );
+        log.info("The agreement {} is activated", agreementId);
     }
 
     private void sendEmail(ClientDto clientDto, UUID applicationId, String verdict) {
@@ -80,5 +137,9 @@ public class ApplicationScoringService {
                 verdict,
                 property.conclusion()
         );
+    }
+
+    private static void logApplicationStatusChange(UUID applicationId, ApplicationStatus newStatus) {
+        log.info("Application {} status updated to {}", applicationId, newStatus);
     }
 }
