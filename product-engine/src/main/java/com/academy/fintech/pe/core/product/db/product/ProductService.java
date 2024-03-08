@@ -3,6 +3,7 @@ package com.academy.fintech.pe.core.product.db.product;
 import com.academy.fintech.pe.core.product.db.product.model.Product;
 import com.academy.fintech.pe.core.product.db.product.repository.ProductRepository;
 import com.academy.fintech.pe.public_interface.agreement.dto.AgreementCreationDto;
+import com.academy.fintech.pe.public_interface.product.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,10 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public Product getProductByCode(String code) {
-        return productRepository.findById(code).orElseThrow();
+    public ProductDto getProductByCode(String code) {
+        return ProductMapper.mapProductToDto(
+                productRepository.findById(code).orElseThrow()
+        );
     }
 
     public void validateAgreement(AgreementCreationDto agreementCreationDto) {

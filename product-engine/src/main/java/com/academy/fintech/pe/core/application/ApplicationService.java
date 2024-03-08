@@ -2,9 +2,9 @@ package com.academy.fintech.pe.core.application;
 
 import com.academy.fintech.pe.core.agreement.db.agreement.AgreementService;
 import com.academy.fintech.pe.core.product.db.product.ProductService;
-import com.academy.fintech.pe.core.product.db.product.model.Product;
 import com.academy.fintech.pe.core.schedule.calculation.PaymentCalculator;
 import com.academy.fintech.pe.public_interface.application.dto.ApplicationDto;
+import com.academy.fintech.pe.public_interface.product.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +22,11 @@ public class ApplicationService {
     private final AgreementService agreementService;
 
     public BigDecimal getApplicationPeriodPayment(ApplicationDto applicationDto) {
-        Product product = productService.getProductByCode(DEFAULT_PRODUCT_CODE);
+        ProductDto productDto = productService.getProductByCode(DEFAULT_PRODUCT_CODE);
         return PaymentCalculator.calculatePeriodPayment(
                 applicationDto.requestedAmount(),
-                product.getMaxInterest(),
-                product.getMaxTerm()
+                productDto.maxInterest(),
+                productDto.maxTerm()
         );
     }
 
