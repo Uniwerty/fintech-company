@@ -1,4 +1,4 @@
-package com.academy.fintech.origination.core.application.service;
+package com.academy.fintech.origination.core.application.service.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -10,6 +10,7 @@ public record ApplicationScoringServiceProperty(
         String closedStatus,
         String greeting,
         String message,
-        String conclusion
+        String conclusion,
+        String defaultProductCode
 ) {
 }
