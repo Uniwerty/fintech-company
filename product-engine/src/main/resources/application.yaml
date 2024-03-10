@@ -1,3 +1,7 @@
+grpc:
+  port: 9095
+  enable-reflection: true
+
 spring:
   liquibase:
     enabled: true
