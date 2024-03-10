@@ -1,3 +1,7 @@
+grpc:
+  port: 9096
+  enable-reflection: true
+
 scoring:
   client:
     pe:
