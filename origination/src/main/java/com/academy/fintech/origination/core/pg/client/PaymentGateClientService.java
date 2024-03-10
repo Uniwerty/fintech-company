@@ -2,7 +2,7 @@ package com.academy.fintech.origination.core.pg.client;
 
 import com.academy.fintech.origination.core.pg.client.grpc.PaymentGateClient;
 import com.academy.fintech.origination.public_interface.payment.dto.PaymentRequestDto;
-import com.academy.fintech.pg.PaymentRequest;
+import com.academy.fintech.pg.DisbursementRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +17,12 @@ public class PaymentGateClientService {
         return new Date(
                 paymentGateClient
                         .makeDisbursement(
-                                PaymentRequest.newBuilder()
+                                DisbursementRequest.newBuilder()
                                         .setClientId(requestDto.clientId().toString())
                                         .setAmount(requestDto.amount().toString())
                                         .build()
                         )
-                        .getDisbursementDate()
+                        .getDate()
         );
     }
 }
