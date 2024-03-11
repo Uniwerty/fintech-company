@@ -34,7 +34,8 @@ public class Account {
     private String accountCode;
 
     @Column(name = "balance")
-    BigDecimal balance;
+    @Builder.Default
+    BigDecimal balance = BigDecimal.ZERO;
 }
 
 
