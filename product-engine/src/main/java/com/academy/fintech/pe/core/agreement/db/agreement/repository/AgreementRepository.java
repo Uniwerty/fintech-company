@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
+@Transactional
 public interface AgreementRepository extends CrudRepository<Agreement, UUID> {
     @Modifying
-    @Transactional
     @Query(value = """
             UPDATE agreements SET
             next_payment_date = :date
