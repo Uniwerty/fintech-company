@@ -3,7 +3,9 @@ package com.academy.fintech.origination.core.application.mapper;
 import com.academy.fintech.origination.core.application.status.ApplicationStatus;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationCreationDto;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationDto;
+import com.academy.fintech.origination.public_interface.application.dto.ApplicationScoringDto;
 import com.academy.fintech.origination.public_interface.client.dto.ClientDto;
+import com.academy.fintech.origination.public_interface.payment.dto.DisbursementRequestDto;
 import lombok.experimental.UtilityClass;
 
 import java.util.UUID;
@@ -26,6 +28,13 @@ public class DtoMapper {
                 .status(ApplicationStatus.NEW)
                 .requestedAmount(applicationCreationDto.requestedAmount())
                 .creationDate(applicationCreationDto.creationDate())
+                .build();
+    }
+
+    public static DisbursementRequestDto mapScoringDtoToDisbursementRequestDto(ApplicationScoringDto applicationScoringDto) {
+        return DisbursementRequestDto.builder()
+                .clientId(applicationScoringDto.clientId())
+                .amount(applicationScoringDto.requestedAmount())
                 .build();
     }
 }
