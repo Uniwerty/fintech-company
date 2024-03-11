@@ -1,7 +1,7 @@
 package com.academy.fintech.origination.core.application.service;
 
 import com.academy.fintech.origination.core.application.db.application.ApplicationService;
-import com.academy.fintech.origination.core.application.mapper.DtoMapper;
+import com.academy.fintech.origination.core.application.mapper.ApplicationDtoMapper;
 import com.academy.fintech.origination.core.application.service.configuration.ApplicationScoringServiceProperty;
 import com.academy.fintech.origination.core.application.status.ApplicationStatus;
 import com.academy.fintech.origination.core.client.db.client.ClientService;
@@ -95,7 +95,7 @@ public class ApplicationScoringService {
         );
         log.info("The agreement {} is created", agreementId);
         paymentGateClientService.makeDisbursement(
-                DtoMapper.mapScoringDtoToDisbursementRequestDto(applicationScoringDto),
+                ApplicationDtoMapper.mapScoringDtoToDisbursementRequestDto(applicationScoringDto),
                 getAgreementActivationCallback(agreementId)
         );
     }

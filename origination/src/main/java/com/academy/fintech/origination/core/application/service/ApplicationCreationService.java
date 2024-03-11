@@ -1,7 +1,7 @@
 package com.academy.fintech.origination.core.application.service;
 
 import com.academy.fintech.origination.core.application.db.application.ApplicationService;
-import com.academy.fintech.origination.core.application.mapper.DtoMapper;
+import com.academy.fintech.origination.core.application.mapper.ApplicationDtoMapper;
 import com.academy.fintech.origination.core.client.service.ClientCreationService;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationCreationDto;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationCreationResult;
@@ -20,10 +20,10 @@ public class ApplicationCreationService {
 
     public ApplicationCreationResult create(ApplicationCreationDto applicationCreationDto) {
         UUID clientId = clientCreationService.createOrGetExisting(
-                DtoMapper.mapApplicationCreationDtoToClientDto(applicationCreationDto)
+                ApplicationDtoMapper.mapCreationDtoToClientDto(applicationCreationDto)
         );
         ApplicationDto applicationDto =
-                DtoMapper.mapApplicationCreationDtoToApplicationDto(clientId, applicationCreationDto);
+                ApplicationDtoMapper.mapCreationDtoToApplicationDto(clientId, applicationCreationDto);
         Optional<UUID> previousApplicationOptional = applicationService.findWithNewStatus(applicationDto);
         return previousApplicationOptional
                 .map(ApplicationCreationResult::withFailure)
