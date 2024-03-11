@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Builder
-public record PaymentRequestDto(
+public record DisbursementRequestDto(
         UUID clientId,
         BigDecimal amount
 ) {
