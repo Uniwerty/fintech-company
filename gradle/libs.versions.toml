@@ -11,6 +11,7 @@ protobuf = { id = "com.google.protobuf", version = "0.9.4" }
 [libraries]
 spring-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
 spring-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
+spring-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring-boot" }
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "spring-boot" }
 
 javax-annotation = { module = "javax.annotation:javax.annotation-api", version = "1.3.2" }
@@ -37,6 +38,7 @@ testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.
 
 [bundles]
 spring = ["spring-starter", "spring-web", "spring-actuator"]
+reactive = ["spring-starter", "spring-webflux", "spring-actuator"]
 grpc = ["spring-grpc", "protobuf-java", "protobuf-java-util", "grpc-protobuf", "grpc-stub", "javax-annotation"]
 database = ["postgresql-driver", "liquibase", "spring-jpa", "lombok"]
 testing = ["spring-test", "jupiter", "testcontainers-core", "testcontainers-jupiter", "testcontainers-postgresql"]
