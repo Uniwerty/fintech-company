@@ -18,9 +18,10 @@ public interface AccountRepository extends CrudRepository<Account, UUID> {
     @Query(value = """
             update accounts 
             set balance = balance + :amount
-            where agreement_id = :agreementId
+            where agreement_id = :agreementId and account_code = :code
             """,
             nativeQuery = true)
-    void addAmountByAgreementId(@Param("agreementId") UUID agreementId,
-                                @Param("amount") BigDecimal amount);
+    void addAmountByAgreementIdAndCode(@Param("agreementId") UUID agreementId,
+                                       @Param("code") String accountCode,
+                                       @Param("amount") BigDecimal amount);
 }

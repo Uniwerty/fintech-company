@@ -24,8 +24,9 @@ public class AccountService {
     }
 
     public void addAmount(AgreementPaymentDto agreementPaymentDto) {
-        accountRepository.addAmountByAgreementId(
+        accountRepository.addAmountByAgreementIdAndCode(
                 agreementPaymentDto.agreementId(),
+                AccountCode.STANDARD.name(),
                 agreementPaymentDto.amount()
         );
     }
