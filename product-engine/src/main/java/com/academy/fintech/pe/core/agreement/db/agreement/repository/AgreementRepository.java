@@ -26,4 +26,6 @@ public interface AgreementRepository extends CrudRepository<Agreement, UUID> {
                                         @Param("date") Date nextPaymentDate);
 
     List<Agreement> findAgreementsByClientId(UUID clientId);
+
+    List<Agreement> findAgreementsByStatusAndNextPaymentDate(String status, Date nextPaymentDate);
 }
