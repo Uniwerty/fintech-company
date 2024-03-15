@@ -36,4 +36,11 @@ public class PaymentScheduleService {
                 .disbursementDate(paymentScheduleCreationDto.disbursementDate())
                 .build();
     }
+
+    public UUID getLatestVersionIdByAgreementId(UUID agreementId) {
+        return paymentScheduleRepository
+                .findLatestVersionByAgreementId(agreementId)
+                .map(PaymentSchedule::getId)
+                .orElseThrow();
+    }
 }
