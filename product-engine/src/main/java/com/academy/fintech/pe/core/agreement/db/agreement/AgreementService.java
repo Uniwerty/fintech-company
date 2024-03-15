@@ -49,6 +49,17 @@ public class AgreementService {
                 .toList();
     }
 
+    public List<UUID> findActiveAgreementsByNextPaymentDate(Date currentDate) {
+        return agreementRepository
+                .findAgreementsByStatusAndNextPaymentDate(
+                        AgreementStatus.ACTIVE.name(),
+                        currentDate
+                )
+                .stream()
+                .map(Agreement::getId)
+                .toList();
+    }
+
     private static OffsetDateTime offsetDateTimeOf(Date date) {
         return OffsetDateTime.of(
                 date.toLocalDate(),
