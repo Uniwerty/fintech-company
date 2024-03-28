@@ -3,13 +3,11 @@ package com.academy.fintech.pg.core.mp.client.rest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
+import java.util.UUID;
+
 @Builder
-public record DisbursementRequest(
+public record DisbursementResultRequest(
         @JsonProperty("agreement_id")
-        String agreementId,
-        @JsonProperty("client_id")
-        String clientId,
-        @JsonProperty("amount")
-        String amount
+        UUID agreementId
 ) {
 }

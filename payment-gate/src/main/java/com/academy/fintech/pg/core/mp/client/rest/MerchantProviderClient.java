@@ -15,12 +15,21 @@ public class MerchantProviderClient {
                 .build();
     }
 
-    public Mono<DisbursementResponse> disburse(DisbursementRequest request) {
-        return webClient
-                .post()
+    public void disburse(DisbursementRequest request) {
+        webClient.post()
                 .uri("/disburse")
                 .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(request)
+                .retrieve();
+    }
+
+    public Mono<DisbursementResultResponse> getDisbursementResult(DisbursementResultRequest request) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/result/{id}")
+                        .build(request.agreementId()))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(DisbursementResponse.class);
+                .bodyToMono(DisbursementResultResponse.class);
     }
 }
