@@ -1,18 +1,22 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
 package com.academy.fintech.pg;
 
 option java_multiple_files = true;
 
 service DisbursementService{
-  rpc MakeDisbursement(DisbursementRequest) returns (DisbursementResponse) {}
+  rpc MakeDisbursement(DisbursementRequest) returns (google.protobuf.Empty) {}
+  rpc ConfirmDisbursement(ConfirmationRequest) returns (google.protobuf.Empty) {}
 }
 
 message DisbursementRequest{
-  string clientId = 1;
-  string amount = 2;
+  string agreementId = 1;
+  string clientId = 2;
+  string amount = 3;
 }
 
-message DisbursementResponse{
-  int64 date = 1;
+message ConfirmationRequest{
+  string agreementId = 1;
+  int64 disbursementDate = 2;
 }

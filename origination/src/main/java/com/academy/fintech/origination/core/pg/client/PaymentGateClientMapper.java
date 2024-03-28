@@ -8,6 +8,7 @@ import lombok.experimental.UtilityClass;
 public class PaymentGateClientMapper {
     public DisbursementRequest mapDtoToRequest(DisbursementRequestDto requestDto) {
         return DisbursementRequest.newBuilder()
+                .setAgreementId(requestDto.agreementId().toString())
                 .setClientId(requestDto.clientId().toString())
                 .setAmount(requestDto.amount().toString())
                 .build();

@@ -1,21 +1,18 @@
 package com.academy.fintech.origination.core.application.service;
 
 import com.academy.fintech.origination.core.application.db.application.ApplicationService;
-import com.academy.fintech.origination.core.application.mapper.ApplicationDtoMapper;
 import com.academy.fintech.origination.core.application.service.configuration.ApplicationScoringServiceProperty;
 import com.academy.fintech.origination.core.application.status.ApplicationStatus;
 import com.academy.fintech.origination.core.client.db.client.ClientService;
 import com.academy.fintech.origination.core.pe.client.ProductEngineClientService;
 import com.academy.fintech.origination.core.pg.client.PaymentGateClientService;
 import com.academy.fintech.origination.core.scoring.client.ScoringClientService;
-import com.academy.fintech.origination.public_interface.agreement.dto.AgreementActivationDto;
 import com.academy.fintech.origination.public_interface.agreement.dto.AgreementCreationDto;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationScoringDto;
 import com.academy.fintech.origination.public_interface.application.dto.ScoringRequestDto;
 import com.academy.fintech.origination.public_interface.client.dto.ClientDto;
+import com.academy.fintech.origination.public_interface.payment.dto.DisbursementRequestDto;
 import com.academy.fintech.origination.public_interface.product.dto.ProductDto;
-import com.academy.fintech.pg.DisbursementResponse;
-import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,7 +20,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -95,42 +91,12 @@ public class ApplicationScoringService {
         );
         log.info("The agreement {} is created", agreementId);
         paymentGateClientService.makeDisbursement(
-                ApplicationDtoMapper.mapScoringDtoToDisbursementRequestDto(applicationScoringDto),
-                getAgreementActivationCallback(agreementId)
+                DisbursementRequestDto.builder()
+                        .agreementId(agreementId)
+                        .clientId(applicationScoringDto.clientId())
+                        .amount(applicationScoringDto.requestedAmount())
+                        .build()
         );
-    }
-
-    /**
-     * Gets the {@link StreamObserver}
-     * that activates the agreement with the specified {@code agreementId}
-     * when it gets {@link DisbursementResponse}.
-     *
-     * @param agreementId the {@link UUID} of the agreement to activate
-     * @return the {@link StreamObserver} activating the agreement
-     */
-    private StreamObserver<DisbursementResponse> getAgreementActivationCallback(UUID agreementId) {
-        return new StreamObserver<>() {
-            @Override
-            public void onNext(DisbursementResponse value) {
-                log.info("Disbursement according to the agreement {} is done", agreementId);
-                productEngineClientService.activateAgreement(
-                        AgreementActivationDto.builder()
-                                .id(agreementId)
-                                .disbursementDate(new Date(value.getDate()))
-                                .build()
-                );
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                log.error("Failed to make disbursement: {}", t.getMessage());
-            }
-
-            @Override
-            public void onCompleted() {
-                log.info("The agreement {} is activated", agreementId);
-            }
-        };
     }
 
     private void sendEmail(ClientDto clientDto, UUID applicationId, String verdict) {
