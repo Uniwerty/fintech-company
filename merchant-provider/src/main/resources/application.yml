@@ -1,2 +1,14 @@
 server:
   port: 8088
+
+spring:
+  liquibase:
+    enabled: true
+    changeLog: classpath:/db/db.changelog-master.yaml
+    url: jdbc:postgresql://localhost:5432/merchant-provider-db
+    user: merchant-provider
+    password: merchant-provider
+  datasource:
+    url: jdbc:postgresql://localhost:5432/merchant-provider-db
+    username: merchant-provider
+    password: merchant-provider
