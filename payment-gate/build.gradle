@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
     implementation libs.bundles.reactive
+    implementation libs.bundles.database
 }
 
 protobuf {
