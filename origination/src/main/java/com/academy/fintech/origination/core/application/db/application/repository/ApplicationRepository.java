@@ -1,12 +1,9 @@
 package com.academy.fintech.origination.core.application.db.application.repository;
 
 import com.academy.fintech.origination.core.application.db.application.model.Application;
-import com.academy.fintech.origination.core.application.status.ApplicationStatus;
+import com.academy.fintech.origination.core.application.db.application.model.ApplicationStatus;
 import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -22,13 +19,4 @@ public interface ApplicationRepository extends CrudRepository<Application, UUID>
                                                                                ApplicationStatus status);
 
     List<Application> findAllByStatus(ApplicationStatus status);
-
-    @Modifying
-    @Query(value = """
-            UPDATE applications SET
-            status = :status
-            WHERE application_id = :id
-            """,
-            nativeQuery = true)
-    void updateStatusById(@Param("id") UUID id, @Param("status") ApplicationStatus status);
 }
