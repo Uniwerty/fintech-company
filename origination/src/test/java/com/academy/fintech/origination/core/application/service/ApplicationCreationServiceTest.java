@@ -2,7 +2,7 @@ package com.academy.fintech.origination.core.application.service;
 
 import com.academy.fintech.origination.core.application.db.application.model.Application;
 import com.academy.fintech.origination.core.application.db.application.repository.ApplicationRepository;
-import com.academy.fintech.origination.core.application.status.ApplicationStatus;
+import com.academy.fintech.origination.core.application.db.application.model.ApplicationStatus;
 import com.academy.fintech.origination.core.client.db.client.model.Client;
 import com.academy.fintech.origination.core.client.db.client.repository.ClientRepository;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationCreationDto;

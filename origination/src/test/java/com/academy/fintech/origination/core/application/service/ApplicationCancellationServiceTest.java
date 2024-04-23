@@ -2,11 +2,10 @@ package com.academy.fintech.origination.core.application.service;
 
 import com.academy.fintech.origination.core.application.db.application.model.Application;
 import com.academy.fintech.origination.core.application.db.application.repository.ApplicationRepository;
-import com.academy.fintech.origination.core.application.status.ApplicationStatus;
+import com.academy.fintech.origination.core.application.db.application.model.ApplicationStatus;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationCancellationResult;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationCreationDto;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationCreationResult;
-import io.grpc.netty.shaded.io.netty.util.internal.SocketUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
