@@ -6,6 +6,7 @@ plugins {
 dependencies {
     implementation libs.bundles.database
     implementation libs.spring.mail
+    implementation libs.spring.kafka
 }
 
 protobuf {
