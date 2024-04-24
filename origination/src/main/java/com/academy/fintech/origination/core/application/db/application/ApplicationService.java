@@ -3,7 +3,7 @@ package com.academy.fintech.origination.core.application.db.application;
 import com.academy.fintech.origination.core.application.db.application.model.Application;
 import com.academy.fintech.origination.core.application.db.application.repository.ApplicationRepository;
 import com.academy.fintech.origination.core.application.db.outbox.ApplicationMessageMapper;
-import com.academy.fintech.origination.core.application.db.outbox.repository.ApplicationMessageRepository;
+import com.academy.fintech.origination.core.application.db.outbox.ApplicationMessageService;
 import com.academy.fintech.origination.core.application.db.application.model.ApplicationStatus;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationDto;
 import com.academy.fintech.origination.public_interface.application.dto.ApplicationScoringDto;
@@ -22,14 +22,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
-    private final ApplicationMessageRepository messageRepository;
+    private final ApplicationMessageService messageService;
 
     @Transactional
     public UUID create(ApplicationDto applicationDto) {
         Application application = ApplicationMapper.mapDtoToEntity(applicationDto);
-        applicationRepository.save(application);
+        application = applicationRepository.save(application);
         try {
-            messageRepository.save(ApplicationMessageMapper.mapApplicationToMessage(application));
+            messageService.save(ApplicationMessageMapper.mapApplicationToMessage(application));
         } catch (JsonProcessingException e) {
             log.error("Couldn't process JSON: {}", e.getMessage());
         }
@@ -70,7 +70,7 @@ public class ApplicationService {
         application.setStatus(status);
         applicationRepository.save(application);
         try {
-            messageRepository.save(ApplicationMessageMapper.mapApplicationToMessage(application));
+            messageService.save(ApplicationMessageMapper.mapApplicationToMessage(application));
         } catch (JsonProcessingException e) {
             log.error("Couldn't process JSON: {}", e.getMessage());
         }
