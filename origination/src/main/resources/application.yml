@@ -31,6 +31,11 @@ origination:
         conclusion: "Fintech Academy"
         defaultProductCode: "CL-1.0"
 
+exporter:
+  application:
+    topic: "origination.application.v1"
+    timeout: 10000
+
 spring:
   liquibase:
     enabled: true
