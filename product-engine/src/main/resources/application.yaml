@@ -13,3 +13,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/product-engine-db
     username: product-engine
     password: product-engine
+  kafka:
+    bootstrap-servers: localhost:9092
+
+exporter:
+  agreement:
+    topic: "pe.agreement.v1"
+    timeout: 10000
