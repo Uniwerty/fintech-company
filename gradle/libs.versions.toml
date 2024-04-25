@@ -6,6 +6,7 @@ testcontainers = "1.19.2"
 [plugins]
 spring = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-gradle = { id = 'org.springframework.boot', version.ref = "spring-boot" }
+spring-dependency-management = { id = 'io.spring.dependency-management', version = '1.1.4' }
 protobuf = { id = "com.google.protobuf", version = "0.9.4" }
 
 [libraries]
