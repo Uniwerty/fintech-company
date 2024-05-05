@@ -22,6 +22,7 @@ lombok = { module = "org.projectlombok:lombok", version = "1.18.26" }
 postgresql-driver = { module = "org.postgresql:postgresql", version = "42.6.0" }
 liquibase = { module = "org.liquibase:liquibase-core", version = "4.24.0" }
 spring-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-boot" }
+spring-mongodb = { module = "org.springframework.boot:spring-boot-starter-data-mongodb", version.ref = "spring-boot" }
 
 spring-grpc = { module = "io.github.lognet:grpc-spring-boot-starter", version = "5.1.0" }
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf-java" }
