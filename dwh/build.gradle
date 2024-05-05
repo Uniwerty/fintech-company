@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    alias(libs.plugins.spring.gradle)
+    alias(libs.plugins.spring.dependency.management)
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation libs.bundles.spring
+    implementation libs.lombok
+    implementation libs.spring.mongodb
+    implementation libs.spring.kafka
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
