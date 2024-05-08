@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfigura
 import org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication(
         exclude = {
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
                 NettyAutoConfiguration.class,
         }
 )
+@EnableMongoRepositories
 public class Application {
     public static void main(String[] args) {
         new SpringApplicationBuilder(Application.class)
