@@ -2,7 +2,7 @@ package com.academy.fintech.origination.core.application.service;
 
 import com.academy.fintech.origination.core.application.db.application.ApplicationService;
 import com.academy.fintech.origination.core.application.service.configuration.ApplicationScoringServiceProperty;
-import com.academy.fintech.origination.core.application.status.ApplicationStatus;
+import com.academy.fintech.origination.core.application.db.application.model.ApplicationStatus;
 import com.academy.fintech.origination.core.client.db.client.ClientService;
 import com.academy.fintech.origination.core.pe.client.ProductEngineClientService;
 import com.academy.fintech.origination.core.pg.client.PaymentGateClientService;

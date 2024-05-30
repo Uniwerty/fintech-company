@@ -1,4 +1,7 @@
 version: '3.8'
+networks:
+  company:
+    driver: bridge
 services:
   product-engine-db:
     image: postgres:14.1-alpine
@@ -11,6 +14,8 @@ services:
       - '5432:5432'
     volumes:
       - product-engine-db:/var/lib/postgresql/data
+    networks:
+      - company
   origination-db:
     image: postgres:14.1-alpine
     restart: always
@@ -22,6 +27,8 @@ services:
       - '5432:5432'
     volumes:
       - origination-db:/var/lib/postgresql/data
+    networks:
+      - company
   payment-gate-db:
     image: postgres:14.1-alpine
     restart: always
@@ -33,6 +40,8 @@ services:
       - '5432:5432'
     volumes:
       - payment-gate-db:/var/lib/postgresql/data
+    networks:
+      - company
   merchant-provider-db:
     image: postgres:14.1-alpine
     restart: always
@@ -44,6 +53,55 @@ services:
       - '5432:5432'
     volumes:
       - merchant-provider-db:/var/lib/postgresql/data
+    networks:
+      - company
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - '2181:2181'
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      test: echo srvr | nc zookeeper 2181 || exit 1
+      start_period: 10s
+      retries: 20
+      interval: 10s
+    networks:
+      - company
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    hostname: kafka
+    container_name: kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - '29092:29092'
+      - '9092:9092'
+      - '9101:9101'
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+    healthcheck:
+      test: nc -z localhost 9092 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    networks:
+      - company
 volumes:
   product-engine-db:
     driver: local

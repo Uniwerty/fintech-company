@@ -1,10 +1,12 @@
 plugins {
     alias(libs.plugins.protobuf)
     alias(libs.plugins.spring.gradle)
+    alias(libs.plugins.spring.dependency.management)
 }
 
 dependencies {
     implementation libs.bundles.database
+    implementation libs.spring.kafka
 }
 
 protobuf {

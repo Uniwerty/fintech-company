@@ -1,6 +1,6 @@
 package com.academy.fintech.origination.public_interface.application.dto;
 
-import com.academy.fintech.origination.core.application.status.ApplicationStatus;
+import com.academy.fintech.origination.core.application.db.application.model.ApplicationStatus;
 import lombok.Builder;
 
 import java.math.BigDecimal;
@@ -12,6 +12,7 @@ public record ApplicationDto(
         UUID clientId,
         ApplicationStatus status,
         BigDecimal requestedAmount,
-        Date creationDate
+        Date creationDate,
+        Date lastUpdateDate
 ) {
 }

@@ -14,6 +14,7 @@ public class ApplicationMapper {
                 .requestedAmount(applicationDto.requestedAmount())
                 .status(applicationDto.status())
                 .creationDate(applicationDto.creationDate())
+                .lastUpdateDate(applicationDto.lastUpdateDate())
                 .build();
     }
 
@@ -23,6 +24,7 @@ public class ApplicationMapper {
                 .status(application.getStatus())
                 .requestedAmount(application.getRequestedAmount())
                 .creationDate(application.getCreationDate())
+                .lastUpdateDate(application.getLastUpdateDate())
                 .build();
     }
 
