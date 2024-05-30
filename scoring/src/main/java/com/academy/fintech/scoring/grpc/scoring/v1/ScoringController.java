@@ -18,11 +18,11 @@ public class ScoringController extends ScoringServiceGrpc.ScoringServiceImplBase
     @Override
     public void getScore(ScoringRequest request, StreamObserver<ScoringResponse> responseObserver) {
         log.info("Scoring request for client {} received", request.getClientId());
-        boolean approved = scoringService.getApprovalVerdict(ScoringMapper.mapRequestToDto(request));
+        boolean isApproved = scoringService.getApprovalVerdict(ScoringMapper.mapRequestToDto(request));
         responseObserver.onNext(
                 ScoringResponse.newBuilder()
                         .setClientId(request.getClientId())
-                        .setApproved(approved)
+                        .setIsApproved(isApproved)
                         .build()
         );
         responseObserver.onCompleted();

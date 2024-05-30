@@ -1,0 +1,24 @@
+plugins {
+    alias(libs.plugins.protobuf)
+    alias(libs.plugins.spring.gradle)
+}
+
+dependencies {
+    implementation libs.bundles.reactive
+    implementation libs.bundles.database
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.24.4'
+    }
+
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.59.0'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins { grpc {} }
+    }
+}

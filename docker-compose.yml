@@ -22,9 +22,34 @@ services:
       - '5432:5432'
     volumes:
       - origination-db:/var/lib/postgresql/data
-
+  payment-gate-db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=payment-gate-db
+      - POSTGRES_USER=payment-gate
+      - POSTGRES_PASSWORD=payment-gate
+    ports:
+      - '5432:5432'
+    volumes:
+      - payment-gate-db:/var/lib/postgresql/data
+  merchant-provider-db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=merchant-provider-db
+      - POSTGRES_USER=merchant-provider
+      - POSTGRES_PASSWORD=merchant-provider
+    ports:
+      - '5432:5432'
+    volumes:
+      - merchant-provider-db:/var/lib/postgresql/data
 volumes:
   product-engine-db:
     driver: local
   origination-db:
+    driver: local
+  payment-gate-db:
+    driver: local
+  merchant_provider-db:
     driver: local

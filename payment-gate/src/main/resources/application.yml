@@ -1,0 +1,32 @@
+server:
+  port: 8087
+
+grpc:
+  port: 9097
+  enable-reflection: true
+
+pg:
+  client:
+    mp:
+      rest:
+        url: "localhost:8088/mp/payment"
+    pe:
+      grpc:
+        host: localhost
+        port: 9095
+    origination:
+      grpc:
+        host: localhost
+        port: 9094
+
+spring:
+  liquibase:
+    enabled: true
+    changeLog: classpath:/db/db.changelog-master.yaml
+    url: jdbc:postgresql://localhost:5432/payment-gate-db
+    user: payment-gate
+    password: payment-gate
+  datasource:
+    url: jdbc:postgresql://localhost:5432/payment-gate-db
+    username: payment-gate
+    password: payment-gate

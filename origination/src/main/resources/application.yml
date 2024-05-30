@@ -7,10 +7,18 @@ grpc:
 
 origination:
   client:
+    pe:
+      grpc:
+        host: localhost
+        port: 9095
     scoring:
       grpc:
         host: localhost
         port: 9096
+    pg:
+      grpc:
+        host: localhost
+        port: 9097
   application:
     service:
       scoring:
@@ -21,6 +29,7 @@ origination:
         greeting: "Уважаемый(ая)"
         message: "Сообщаем Вам, что заявка №"
         conclusion: "Fintech Academy"
+        defaultProductCode: "CL-1.0"
 
 spring:
   liquibase:
