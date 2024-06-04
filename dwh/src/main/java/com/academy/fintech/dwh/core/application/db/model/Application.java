@@ -15,7 +15,6 @@ import java.util.UUID;
 @Setter
 @Builder
 @AllArgsConstructor
-@Document(collection = "applications")
 public class Application {
     @Id
     private UUID id;
