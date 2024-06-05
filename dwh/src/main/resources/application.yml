@@ -1,0 +1,9 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+
+listener:
+  application:
+    topic: "origination.application.v1"
+  agreement:
+    topic: "pe.agreement.v1"

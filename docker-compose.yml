@@ -102,6 +102,18 @@ services:
       retries: 10
     networks:
       - company
+  dwh-db:
+    image: mongo:latest
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=dwh-db
+      - MONGO_INITDB_ROOT_USERNAME=dwh
+      - MONGO_INITDB_ROOT_PASSWORD=dwh
+    ports:
+      - '27017:27017'
+    networks:
+      - company
+
 volumes:
   product-engine-db:
     driver: local
@@ -109,5 +121,5 @@ volumes:
     driver: local
   payment-gate-db:
     driver: local
-  merchant_provider-db:
+  merchant-provider-db:
     driver: local
